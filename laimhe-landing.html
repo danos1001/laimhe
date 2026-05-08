@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Láimhe — Built for Irish Tradespeople</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #111; font-size: 15px; line-height: 1.6; }
+
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-bottom: 0.5px solid #e5e7eb; background: #fff; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { display: flex; align-items: center; gap: 7px; font-size: 21px; font-weight: 500; letter-spacing: -0.5px; color: #111; text-decoration: none; }
+  .nav-logo span { color: #16a34a; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-size: 13px; color: #6b7280; text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: #111; }
+  .nav-cta { background: #16a34a; color: #fff; border: none; padding: 9px 20px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+  .nav-cta:hover { background: #15803d; }
+
+  .hero { padding: 80px 40px 60px; text-align: center; max-width: 760px; margin: 0 auto; }
+  .hero-badge { display: inline-block; background: #f0fdf4; border: 0.5px solid #bbf7d0; color: #16a34a; font-size: 12px; padding: 5px 14px; border-radius: 20px; margin-bottom: 24px; }
+  .hero h1 { font-size: 48px; font-weight: 500; line-height: 1.15; letter-spacing: -1px; margin-bottom: 20px; color: #111; }
+  .hero h1 span { color: #16a34a; }
+  .hero p { font-size: 17px; color: #6b7280; max-width: 520px; margin: 0 auto 36px; line-height: 1.7; }
+  .hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: #16a34a; color: #fff; border: none; padding: 13px 28px; border-radius: 9px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+  .btn-primary:hover { background: #15803d; }
+  .btn-secondary { background: #fff; color: #111; border: 0.5px solid #d1d5db; padding: 13px 28px; border-radius: 9px; font-size: 14px; cursor: pointer; }
+
+  .stats { display: flex; justify-content: center; gap: 48px; padding: 40px; border-top: 0.5px solid #f3f4f6; border-bottom: 0.5px solid #f3f4f6; margin: 0 40px; }
+  .stat-item { text-align: center; }
+  .stat-num { font-size: 28px; font-weight: 500; color: #16a34a; }
+  .stat-label { font-size: 12px; color: #9ca3af; margin-top: 2px; }
+
+  .pain-section { background: #f0fdf4; border-top: 0.5px solid #bbf7d0; border-bottom: 0.5px solid #bbf7d0; padding: 64px 40px; }
+  .pain-inner { max-width: 800px; margin: 0 auto; }
+  .pain-tag { font-size: 12px; color: #16a34a; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+  .pain-title { font-size: 34px; font-weight: 500; color: #111; letter-spacing: -0.5px; margin-bottom: 16px; line-height: 1.2; }
+  .pain-title span { color: #16a34a; }
+  .pain-body { font-size: 16px; color: #4b5563; line-height: 1.8; margin-bottom: 28px; max-width: 640px; }
+  .pain-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pain-pill { background: #fff; border: 0.5px solid #bbf7d0; color: #15803d; font-size: 13px; padding: 7px 16px; border-radius: 20px; }
+
+  .dashboard-preview { margin: 60px 40px; background: #f9fafb; border: 0.5px solid #e5e7eb; border-radius: 16px; overflow: hidden; }
+  .db-topbar { background: #fff; padding: 12px 20px; display: flex; align-items: center; gap: 8px; border-bottom: 0.5px solid #e5e7eb; }
+  .db-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .db-inner { display: flex; min-height: 460px; }
+  .db-sidebar { width: 180px; background: #fff; border-right: 0.5px solid #e5e7eb; padding: 20px 12px; flex-shrink: 0; }
+  .db-sidebar-logo { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: #16a34a; margin-bottom: 24px; padding: 0 8px; }
+  .db-nav-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 7px; font-size: 12px; color: #9ca3af; margin-bottom: 2px; cursor: pointer; }
+  .db-nav-item.active { background: #f0fdf4; color: #16a34a; }
+  .db-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+  .db-main { flex: 1; padding: 24px; overflow: hidden; background: #f9fafb; }
+  .db-tabs { display: flex; gap: 4px; margin-bottom: 20px; background: #fff; border: 0.5px solid #e5e7eb; border-radius: 9px; padding: 4px; width: fit-content; }
+  .db-tab { padding: 6px 16px; border-radius: 6px; font-size: 12px; cursor: pointer; color: #6b7280; border: none; background: transparent; }
+  .db-tab.active { background: #16a34a; color: #fff; font-weight: 500; }
+  .db-greeting { font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; }
+  .db-subline { font-size: 12px; color: #9ca3af; margin-bottom: 20px; }
+  .db-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+  .db-card { background: #fff; border: 0.5px solid #e5e7eb; border-radius: 10px; padding: 14px; }
+  .db-card-label { font-size: 10px; color: #9ca3af; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .db-card-val { font-size: 22px; font-weight: 500; color: #111; }
+  .db-card-change { font-size: 10px; color: #16a34a; margin-top: 2px; }
+  .db-section-title { font-size: 12px; font-weight: 500; color: #6b7280; margin-bottom: 10px; }
+  .db-jobs { display: flex; flex-direction: column; gap: 6px; }
+  .db-job { background: #fff; border: 0.5px solid #e5e7eb; border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; gap: 12px; }
+  .db-job-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; flex-shrink: 0; }
+  .db-job-info { flex: 1; }
+  .db-job-name { font-size: 12px; font-weight: 500; color: #111; }
+  .db-job-desc { font-size: 11px; color: #9ca3af; }
+  .db-job-badge { font-size: 10px; padding: 3px 8px; border-radius: 5px; font-weight: 500; flex-shrink: 0; }
+  .badge-new { background: #dbeafe; color: #1d4ed8; }
+  .badge-confirmed { background: #dcfce7; color: #15803d; }
+  .badge-solar { background: #fef3c7; color: #b45309; }
+
+  .schedule-view { display: none; }
+  .sched-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .sched-week { font-size: 13px; font-weight: 500; color: #111; }
+  .sched-nav { display: flex; gap: 6px; }
+  .sched-nav-btn { width: 28px; height: 28px; border-radius: 6px; border: 0.5px solid #e5e7eb; background: #fff; color: #6b7280; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .sched-grid { display: grid; grid-template-columns: 48px repeat(5, 1fr); border: 0.5px solid #e5e7eb; border-radius: 10px; overflow: hidden; background: #fff; }
+  .sched-col-header { background: #f9fafb; border-bottom: 0.5px solid #e5e7eb; padding: 8px 6px; text-align: center; font-size: 10px; color: #6b7280; }
+  .sched-col-header.today { background: #f0fdf4; color: #16a34a; font-weight: 500; }
+  .sched-time { font-size: 9px; color: #9ca3af; padding: 6px; border-right: 0.5px solid #e5e7eb; display: flex; align-items: flex-start; background: #fff; min-height: 48px; }
+  .sched-cell { border-left: 0.5px solid #e5e7eb; border-bottom: 0.5px solid #f3f4f6; min-height: 48px; padding: 3px; }
+  .sched-cell.today-col { background: #fafffe; }
+  .sched-event { border-radius: 5px; padding: 4px 6px; font-size: 10px; font-weight: 500; line-height: 1.3; margin-bottom: 2px; }
+  .ev-green { background: #dcfce7; color: #15803d; }
+  .ev-blue { background: #dbeafe; color: #1d4ed8; }
+  .ev-amber { background: #fef3c7; color: #b45309; }
+  .ev-purple { background: #ede9fe; color: #6d28d9; }
+  .ev-gray { background: #f3f4f6; color: #4b5563; }
+  .sched-legend { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #6b7280; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+  .features { padding: 60px 40px; background: #fff; }
+  .section-label { font-size: 12px; color: #16a34a; text-transform: uppercase; letter-spacing: 1px; text-align: center; margin-bottom: 12px; }
+  .section-title { font-size: 32px; font-weight: 500; text-align: center; color: #111; margin-bottom: 12px; letter-spacing: -0.5px; }
+  .section-sub { font-size: 15px; color: #6b7280; text-align: center; max-width: 480px; margin: 0 auto 48px; }
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .feature-card { background: #f9fafb; border: 0.5px solid #e5e7eb; border-radius: 12px; padding: 24px; }
+  .feature-card h3 { font-size: 14px; font-weight: 500; color: #111; margin-bottom: 8px; }
+  .feature-card p { font-size: 13px; color: #6b7280; line-height: 1.6; }
+  .feature-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; font-size: 16px; }
+
+  .how-it-works { padding: 60px 40px; background: #f9fafb; border-top: 0.5px solid #e5e7eb; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+  .step { text-align: center; padding: 24px; }
+  .step-num { width: 40px; height: 40px; border-radius: 50%; background: #f0fdf4; border: 0.5px solid #bbf7d0; color: #16a34a; font-size: 15px; font-weight: 500; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+  .step h3 { font-size: 14px; font-weight: 500; color: #111; margin-bottom: 8px; }
+  .step p { font-size: 13px; color: #6b7280; }
+
+  .who-we-are { padding: 64px 40px; background: #fff; border-top: 0.5px solid #e5e7eb; }
+  .wwa-inner { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .wwa-left h2 { font-size: 32px; font-weight: 500; color: #111; letter-spacing: -0.5px; margin-bottom: 16px; }
+  .wwa-left h2 span { color: #16a34a; }
+  .wwa-left p { font-size: 14px; color: #4b5563; line-height: 1.8; margin-bottom: 14px; }
+  .wwa-right { background: #f0fdf4; border: 0.5px solid #bbf7d0; border-radius: 14px; padding: 28px; }
+  .wwa-person { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .wwa-avatar { width: 48px; height: 48px; border-radius: 50%; background: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500; color: #fff; flex-shrink: 0; }
+  .wwa-name { font-size: 15px; font-weight: 500; color: #111; }
+  .wwa-role { font-size: 12px; color: #6b7280; }
+  .wwa-quote { font-size: 13px; color: #374151; line-height: 1.7; font-style: italic; border-left: 2px solid #16a34a; padding-left: 14px; }
+
+  .pricing { padding: 64px 40px; background: #f9fafb; border-top: 0.5px solid #e5e7eb; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 860px; margin: 0 auto; }
+  .pricing-card { background: #fff; border: 0.5px solid #e5e7eb; border-radius: 14px; padding: 28px; position: relative; }
+  .pricing-card.featured { border: 2px solid #16a34a; }
+  .pricing-badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: #16a34a; color: #fff; font-size: 11px; font-weight: 500; padding: 3px 14px; border-radius: 20px; white-space: nowrap; }
+  .pricing-plan { font-size: 13px; font-weight: 500; color: #6b7280; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .pricing-price { font-size: 36px; font-weight: 500; color: #111; letter-spacing: -1px; margin-bottom: 4px; }
+  .pricing-price span { font-size: 15px; color: #9ca3af; font-weight: 400; }
+  .pricing-desc { font-size: 13px; color: #6b7280; margin-bottom: 24px; line-height: 1.5; }
+  .pricing-divider { border: none; border-top: 0.5px solid #f3f4f6; margin-bottom: 20px; }
+  .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+  .pricing-features li { font-size: 13px; color: #374151; display: flex; align-items: flex-start; gap: 8px; }
+  .check { color: #16a34a; font-weight: 700; flex-shrink: 0; }
+  .cross { color: #d1d5db; font-weight: 700; flex-shrink: 0; }
+  .pricing-features li.muted { color: #9ca3af; }
+  .btn-plan { width: 100%; padding: 11px; border-radius: 9px; font-size: 13px; font-weight: 500; cursor: pointer; border: 0.5px solid #e5e7eb; background: #fff; color: #111; }
+  .btn-plan.green { background: #16a34a; color: #fff; border: none; }
+
+  .testimonials { padding: 60px 40px; background: #fff; border-top: 0.5px solid #e5e7eb; }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 48px; }
+  .testimonial { background: #f9fafb; border: 0.5px solid #e5e7eb; border-radius: 12px; padding: 24px; }
+  .testimonial-text { font-size: 14px; color: #374151; line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+  .testimonial-author { display: flex; align-items: center; gap: 10px; }
+  .author-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; }
+  .author-name { font-size: 13px; font-weight: 500; color: #111; }
+  .author-trade { font-size: 11px; color: #9ca3af; }
+
+  .cta-section { padding: 80px 40px; text-align: center; background: #16a34a; }
+  .cta-section h2 { font-size: 36px; font-weight: 500; color: #fff; margin-bottom: 16px; letter-spacing: -0.5px; }
+  .cta-section p { font-size: 16px; color: rgba(255,255,255,0.75); margin-bottom: 36px; }
+  .cta-input-row { display: flex; gap: 10px; justify-content: center; max-width: 440px; margin: 0 auto; }
+  .cta-input { flex: 1; background: #fff; border: none; border-radius: 9px; padding: 13px 16px; color: #111; font-size: 14px; outline: none; }
+  .cta-input::placeholder { color: #9ca3af; }
+  .btn-white { background: #fff; color: #16a34a; border: none; padding: 13px 24px; border-radius: 9px; font-size: 14px; font-weight: 500; cursor: pointer; }
+
+  .footer { padding: 32px 40px; border-top: 0.5px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; background: #fff; }
+  .footer-logo { display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 500; color: #6b7280; }
+  .footer-logo span { color: #16a34a; }
+  .footer-copy { font-size: 12px; color: #9ca3af; }
+
+  @media (max-width: 768px) {
+    .nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 48px 20px 40px; }
+    .hero h1 { font-size: 32px; }
+    .stats { gap: 24px; margin: 0 20px; flex-wrap: wrap; }
+    .pain-section { padding: 40px 20px; }
+    .dashboard-preview { margin: 40px 20px; }
+    .db-sidebar { display: none; }
+    .db-cards { grid-template-columns: 1fr 1fr; }
+    .features { padding: 40px 20px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .wwa-inner { grid-template-columns: 1fr; gap: 24px; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .cta-input-row { flex-direction: column; }
+    .footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#" class="nav-logo">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="7.5" y="1" width="3" height="9" rx="1.5" fill="#16a34a"/><rect x="7.5" y="11" width="3" height="6" rx="1" fill="#15803d"/><rect x="5" y="9" width="8" height="2.5" rx="1" fill="#16a34a"/><circle cx="9" cy="3.5" r="1" fill="#fff" opacity="0.6"/></svg>
+    Láimhe<span>.</span>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how-it-works">How it works</a>
+    <a href="#who-we-are">Who we are</a>
+    <a href="#pricing">Pricing</a>
+  </div>
+  <button class="nav-cta" onclick="document.getElementById('cta-email').focus()">Get early access</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">🇮🇪 Built for Irish tradespeople</div>
+  <h1>Your jobs.<br>Your schedule.<br><span>Your control.</span></h1>
+  <p>Láimhe puts every enquiry, booking, and reminder in one place — so you can focus on the work, not the admin.</p>
+  <div class="hero-buttons">
+    <button class="btn-primary" onclick="document.getElementById('cta-email').focus()">Start free trial</button>
+    <button class="btn-secondary" onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})">See how it works</button>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat-item"><div class="stat-num">3.2hrs</div><div class="stat-label">saved per week on average</div></div>
+  <div class="stat-item"><div class="stat-num">94%</div><div class="stat-label">fewer missed enquiries</div></div>
+  <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">tradesperson stays in control</div></div>
+</div>
+
+<section class="pain-section">
+  <div class="pain-inner">
+    <div class="pain-tag">Sound familiar?</div>
+    <div class="pain-title">Tired of drowning in<br><span>WhatsApp messages?</span></div>
+    <div class="pain-body">You're brilliant at your trade. But between the missed calls, the messages scattered across three different apps, the customers who don't show up, and the Sunday night scramble to figure out your week — the admin is eating you alive. You didn't start your business to spend your evenings chasing messages. Láimhe fixes that.</div>
+    <div class="pain-pills">
+      <div class="pain-pill">Lost enquiries in WhatsApp</div>
+      <div class="pain-pill">Double bookings</div>
+      <div class="pain-pill">Customer no-shows</div>
+      <div class="pain-pill">Sunday night scheduling stress</div>
+      <div class="pain-pill">Jobs falling through the cracks</div>
+    </div>
+  </div>
+</section>
+
+<div class="dashboard-preview">
+  <div class="db-topbar">
+    <div class="db-dot" style="background:#ef4444;"></div>
+    <div class="db-dot" style="background:#f59e0b;"></div>
+    <div class="db-dot" style="background:#22c55e;"></div>
+    <span style="font-size:11px;color:#9ca3af;margin-left:8px;">app.laimhe.ie</span>
+  </div>
+  <div class="db-inner">
+    <div class="db-sidebar">
+      <div class="db-sidebar-logo">
+        <svg width="13" height="13" viewBox="0 0 18 18" fill="none"><rect x="7.5" y="1" width="3" height="9" rx="1.5" fill="#16a34a"/><rect x="7.5" y="11" width="3" height="6" rx="1" fill="#15803d"/><rect x="5" y="9" width="8" height="2.5" rx="1" fill="#16a34a"/></svg>
+        Láimhe.
+      </div>
+      <div class="db-nav-item active" onclick="switchTab('enquiries')"><div class="db-nav-dot"></div> Dashboard</div>
+      <div class="db-nav-item" onclick="switchTab('enquiries')"><div class="db-nav-dot"></div> Enquiries</div>
+      <div class="db-nav-item" onclick="switchTab('enquiries')"><div class="db-nav-dot"></div> Bookings</div>
+      <div class="db-nav-item" onclick="switchTab('schedule')"><div class="db-nav-dot"></div> Schedule</div>
+      <div class="db-nav-item" onclick="switchTab('enquiries')"><div class="db-nav-dot"></div> Reminders</div>
+      <div class="db-nav-item" onclick="switchTab('enquiries')"><div class="db-nav-dot"></div> Settings</div>
+    </div>
+    <div class="db-main">
+      <div class="db-tabs">
+        <button class="db-tab active" onclick="switchTab('enquiries')">Enquiries</button>
+        <button class="db-tab" onclick="switchTab('schedule')">Schedule</button>
+      </div>
+      <div id="view-enquiries">
+        <div class="db-greeting">Good morning, Liam.</div>
+        <div class="db-subline">You have 4 new enquiries and 3 jobs confirmed this week.</div>
+        <div class="db-cards">
+          <div class="db-card"><div class="db-card-label">New enquiries</div><div class="db-card-val">4</div><div class="db-card-change">+3 since yesterday</div></div>
+          <div class="db-card"><div class="db-card-label">Confirmed jobs</div><div class="db-card-val">7</div><div class="db-card-change">This week</div></div>
+          <div class="db-card"><div class="db-card-label">Reminders sent</div><div class="db-card-val">12</div><div class="db-card-change">Auto-sent today</div></div>
+        </div>
+        <div class="db-section-title">Recent enquiries</div>
+        <div class="db-jobs">
+          <div class="db-job"><div class="db-job-avatar" style="background:#dbeafe;color:#1d4ed8;">MC</div><div class="db-job-info"><div class="db-job-name">Mary Collins</div><div class="db-job-desc">Fuse board upgrade — Rathmines, Dublin 6</div></div><div class="db-job-badge badge-new">New</div></div>
+          <div class="db-job"><div class="db-job-avatar" style="background:#fef3c7;color:#b45309;">PF</div><div class="db-job-info"><div class="db-job-name">Padraig Flynn</div><div class="db-job-desc">Solar panel installation — Sandyford, Dublin 18</div></div><div class="db-job-badge badge-solar">Solar</div></div>
+          <div class="db-job"><div class="db-job-avatar" style="background:#dcfce7;color:#15803d;">SO</div><div class="db-job-info"><div class="db-job-name">Siobhán O'Brien</div><div class="db-job-desc">Full rewire — Bray, Co. Wicklow</div></div><div class="db-job-badge badge-confirmed">Confirmed</div></div>
+          <div class="db-job"><div class="db-job-avatar" style="background:#ede9fe;color:#6d28d9;">CT</div><div class="db-job-info"><div class="db-job-name">Ciarán Tully</div><div class="db-job-desc">EV charger install — Cabinteely, Dublin</div></div><div class="db-job-badge badge-new">New</div></div>
+        </div>
+      </div>
+      <div id="view-schedule" class="schedule-view">
+        <div class="sched-header">
+          <div class="sched-week">Week of 28 April — 2 May 2026</div>
+          <div class="sched-nav"><button class="sched-nav-btn">&#8592;</button><button class="sched-nav-btn">&#8594;</button></div>
+        </div>
+        <div class="sched-grid">
+          <div class="sched-col-header" style="background:#f9fafb;"></div>
+          <div class="sched-col-header">Mon 28</div>
+          <div class="sched-col-header today">Tue 29</div>
+          <div class="sched-col-header">Wed 30</div>
+          <div class="sched-col-header">Thu 1</div>
+          <div class="sched-col-header">Fri 2</div>
+          <div class="sched-time">8am</div>
+          <div class="sched-cell"><div class="sched-event ev-green">Siobhán O'Brien<br>Full rewire</div></div>
+          <div class="sched-cell today-col"><div class="sched-event ev-blue">Mary Collins<br>Fuse board</div></div>
+          <div class="sched-cell"></div>
+          <div class="sched-cell"><div class="sched-event ev-amber">Padraig Flynn<br>Solar install</div></div>
+          <div class="sched-cell"></div>
+          <div class="sched-time">10am</div>
+          <div class="sched-cell"></div>
+          <div class="sched-cell today-col"></div>
+          <div class="sched-cell"><div class="sched-event ev-purple">Ciarán Tully<br>EV charger</div></div>
+          <div class="sched-cell"></div>
+          <div class="sched-cell"><div class="sched-event ev-green">Bernie Doyle<br>Consumer unit</div></div>
+          <div class="sched-time">12pm</div>
+          <div class="sched-cell"><div class="sched-event ev-gray">Lunch</div></div>
+          <div class="sched-cell today-col"><div class="sched-event ev-gray">Lunch</div></div>
+          <div class="sched-cell"><div class="sched-event ev-gray">Lunch</div></div>
+          <div class="sched-cell"><div class="sched-event ev-gray">Lunch</div></div>
+          <div class="sched-cell"><div class="sched-event ev-gray">Lunch</div></div>
+          <div class="sched-time">2pm</div>
+          <div class="sched-cell"></div>
+          <div class="sched-cell today-col"><div class="sched-event ev-amber">Quote — Foxrock<br>Solar array</div></div>
+          <div class="sched-cell"><div class="sched-event ev-blue">Noel Brady<br>Rewire quote</div></div>
+          <div class="sched-cell"></div>
+          <div class="sched-cell"></div>
+          <div class="sched-time">4pm</div>
+          <div class="sched-cell"><div class="sched-event ev-purple">Aoife Ryan<br>EV charger</div></div>
+          <div class="sched-cell today-col"></div>
+          <div class="sched-cell"></div>
+          <div class="sched-cell"><div class="sched-event ev-green">Declan Byrne<br>Fault finding</div></div>
+          <div class="sched-cell"></div>
+        </div>
+        <div class="sched-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#dcfce7;border:1px solid #16a34a;"></div> Confirmed</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#dbeafe;border:1px solid #1d4ed8;"></div> Booked</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#fef3c7;border:1px solid #b45309;"></div> Solar</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ede9fe;border:1px solid #6d28d9;"></div> EV / Tech</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f3f4f6;border:1px solid #d1d5db;"></div> Blocked</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="features" id="features">
+  <div class="section-label">Features</div>
+  <div class="section-title">Everything a tradesperson needs</div>
+  <div class="section-sub">No more lost WhatsApp messages. No more forgotten jobs. Just clean, simple control.</div>
+  <div class="features-grid">
+    <div class="feature-card"><div class="feature-icon" style="background:#dbeafe;">📥</div><h3>Centralised enquiries</h3><p>All job requests land in one inbox — from your website, phone, or social media. Nothing gets lost.</p></div>
+    <div class="feature-card"><div class="feature-icon" style="background:#dcfce7;">✅</div><h3>Confirmed bookings</h3><p>Send a booking confirmation in one tap. The customer gets it instantly — no confusion, no no-shows.</p></div>
+    <div class="feature-card"><div class="feature-icon" style="background:#fef9c3;">🔔</div><h3>Automatic reminders</h3><p>Láimhe sends reminder messages to your customers before every job. You don't lift a finger.</p></div>
+    <div class="feature-card"><div class="feature-icon" style="background:#f3e8ff;">📅</div><h3>Weekly schedule view</h3><p>See your full week at a glance. Block out time and never double-book again.</p></div>
+    <div class="feature-card"><div class="feature-icon" style="background:#fee2e2;">👷</div><h3>You stay in control</h3><p>Accept or decline any job. No algorithm decides for you. You pick the work that suits you.</p></div>
+    <div class="feature-card"><div class="feature-icon" style="background:#f0fdf4;">🇮🇪</div><h3>Built for Ireland</h3><p>County-aware scheduling, Irish phone formats, and local knowledge baked in from day one.</p></div>
+  </div>
+</section>
+
+<section class="how-it-works" id="how-it-works">
+  <div class="section-label">How it works</div>
+  <div class="section-title">Set up in minutes</div>
+  <div class="section-sub">No technical knowledge needed. If you can use WhatsApp, you can use Láimhe.</div>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><h3>Create your profile</h3><p>Add your trade, location, and working hours. Takes less than five minutes.</p></div>
+    <div class="step"><div class="step-num">2</div><h3>Receive enquiries</h3><p>Share your Láimhe link. Customers submit job requests directly to your dashboard.</p></div>
+    <div class="step"><div class="step-num">3</div><h3>Accept, schedule, done</h3><p>Approve the jobs you want, set the date, and Láimhe handles the rest automatically.</p></div>
+  </div>
+</section>
+
+<section class="who-we-are" id="who-we-are">
+  <div class="wwa-inner">
+    <div class="wwa-left">
+      <div class="section-label" style="text-align:left;margin-bottom:12px;">Who we are</div>
+      <h2>Built by someone who <span>gets it.</span></h2>
+      <p>Láimhe was built out of frustration. Watching skilled tradespeople — electricians, plumbers, tilers, carpenters — lose jobs and waste hours every week not because of their work, but because of the admin chaos around it.</p>
+      <p>We're an Irish team that believes the best tradespeople in the country deserve tools as good as their craft. Láimhe is simple by design — because you shouldn't need a manual to run your own business.</p>
+      <p style="color:#16a34a;font-size:13px;font-weight:500;">— Based in Ireland. Building for Ireland.</p>
+    </div>
+    <div class="wwa-right">
+      <div class="wwa-person">
+        <div class="wwa-avatar">L</div>
+        <div><div class="wwa-name">Liam</div><div class="wwa-role">Founder, Láimhe</div></div>
+      </div>
+      <div class="wwa-quote">"I built Láimhe because I kept seeing brilliant tradespeople losing work to disorganisation — not lack of skill. Every tradesperson in Ireland deserves a tool that works as hard as they do."</div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="section-label">Pricing</div>
+  <div class="section-title">Simple, honest pricing</div>
+  <div class="section-sub">No hidden fees. No long contracts. Cancel any time.</div>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-plan">Starter</div>
+      <div class="pricing-price">Free <span>forever</span></div>
+      <div class="pricing-desc">Perfect for getting started and seeing if Láimhe works for you.</div>
+      <hr class="pricing-divider">
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> Up to 10 enquiries per month</li>
+        <li><span class="check">✓</span> Booking confirmations</li>
+        <li><span class="check">✓</span> Basic schedule view</li>
+        <li class="muted"><span class="cross">✕</span> Automatic reminders</li>
+        <li class="muted"><span class="cross">✕</span> Customer history</li>
+        <li class="muted"><span class="cross">✕</span> Priority support</li>
+      </ul>
+      <button class="btn-plan">Get started free</button>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Most popular</div>
+      <div class="pricing-plan">Pro</div>
+      <div class="pricing-price">€12 <span>/ month</span></div>
+      <div class="pricing-desc">For busy tradespeople who want the full Láimhe experience.</div>
+      <hr class="pricing-divider">
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> Unlimited enquiries</li>
+        <li><span class="check">✓</span> Booking confirmations</li>
+        <li><span class="check">✓</span> Full schedule view</li>
+        <li><span class="check">✓</span> Automatic customer reminders</li>
+        <li><span class="check">✓</span> Full customer history</li>
+        <li class="muted"><span class="cross">✕</span> Priority support</li>
+      </ul>
+      <button class="btn-plan green">Start free trial</button>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-plan">Business</div>
+      <div class="pricing-price">€29 <span>/ month</span></div>
+      <div class="pricing-desc">For larger operations managing multiple tradespeople or vans.</div>
+      <hr class="pricing-divider">
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> Everything in Pro</li>
+        <li><span class="check">✓</span> Up to 5 team members</li>
+        <li><span class="check">✓</span> Team schedule view</li>
+        <li><span class="check">✓</span> Invoice generation</li>
+        <li><span class="check">✓</span> Customer history & notes</li>
+        <li><span class="check">✓</span> Priority support</li>
+      </ul>
+      <button class="btn-plan">Get started</button>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div class="section-label">Testimonials</div>
+  <div class="section-title">Tradespeople love it</div>
+  <div class="section-sub">Early users across Dublin, Cork, and Galway.</div>
+  <div class="testimonials-grid">
+    <div class="testimonial">
+      <div class="testimonial-text">"I used to spend an hour every Sunday night going through messages trying to sort my week. Now it takes ten minutes and everything's already organised for me."</div>
+      <div class="testimonial-author"><div class="author-avatar" style="background:#dcfce7;color:#15803d;">DM</div><div><div class="author-name">Dermot Murphy</div><div class="author-trade">Electrician, Dublin</div></div></div>
+    </div>
+    <div class="testimonial">
+      <div class="testimonial-text">"Had three no-shows in January. Since I started using Láimhe and the automatic reminders, I haven't had a single one. That alone paid for it ten times over."</div>
+      <div class="testimonial-author"><div class="author-avatar" style="background:#dbeafe;color:#1d4ed8;">AK</div><div><div class="author-name">Aoife Kelly</div><div class="author-trade">Electrician, Cork</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Ready to take back your time?</h2>
+  <p>Free to start. No card required. Up and running in minutes.</p>
+  <div class="cta-input-row">
+    <input id="cta-email" class="cta-input" type="email" placeholder="your@email.ie" />
+    <button class="btn-white">Get started</button>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-logo">
+    <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><rect x="7.5" y="1" width="3" height="9" rx="1.5" fill="#16a34a"/><rect x="7.5" y="11" width="3" height="6" rx="1" fill="#15803d"/><rect x="5" y="9" width="8" height="2.5" rx="1" fill="#16a34a"/></svg>
+    Láimhe<span>.</span>
+  </div>
+  <div class="footer-copy">© 2026 Láimhe. Built in Ireland.</div>
+</footer>
+
+<script>
+  function switchTab(tab) {
+    const eq = document.getElementById('view-enquiries');
+    const sc = document.getElementById('view-schedule');
+    const tabs = document.querySelectorAll('.db-tab');
+    const navItems = document.querySelectorAll('.db-nav-item');
+    if (tab === 'schedule') {
+      eq.style.display = 'none';
+      sc.style.display = 'block';
+      tabs[0].classList.remove('active');
+      tabs[1].classList.add('active');
+      navItems.forEach(i => i.classList.remove('active'));
+      navItems[3].classList.add('active');
+    } else {
+      eq.style.display = 'block';
+      sc.style.display = 'none';
+      tabs[0].classList.add('active');
+      tabs[1].classList.remove('active');
+      navItems.forEach(i => i.classList.remove('active'));
+      navItems[0].classList.add('active');
+    }
+  }
+  document.getElementById('view-schedule').style.display = 'none';
+</script>
+</body>
+</html>

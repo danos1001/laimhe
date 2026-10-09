@@ -1,559 +1,1025 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Láimhe — Built for Irish Tradespeople</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #111; font-size: 15px; line-height: 1.6; }
-  .nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-bottom: 0.5px solid #e5e7eb; background: #fff; position: sticky; top: 0; z-index: 100; }
-  .nav-logo { display: flex; align-items: center; gap: 7px; font-size: 21px; font-weight: 500; letter-spacing: -0.5px; color: #111; text-decoration: none; }
-  .nav-logo span { color: #16a34a; }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a { font-size: 13px; color: #6b7280; text-decoration: none; }
-  .nav-links a:hover { color: #111; }
-  .nav-cta { background: #16a34a; color: #fff; border: none; padding: 9px 20px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; }
-  .hero { padding: 80px 40px 60px; text-align: center; max-width: 760px; margin: 0 auto; }
-  .hero-badge { display: inline-block; background: #f0fdf4; border: 0.5px solid #bbf7d0; color: #16a34a; font-size: 12px; padding: 5px 14px; border-radius: 20px; margin-bottom: 24px; }
-  .hero h1 { font-size: 48px; font-weight: 500; line-height: 1.15; letter-spacing: -1px; margin-bottom: 20px; color: #111; }
-  .hero h1 span { color: #16a34a; }
-  .hero p { font-size: 17px; color: #6b7280; max-width: 520px; margin: 0 auto 36px; line-height: 1.7; }
-  .hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary { background: #16a34a; color: #fff; border: none; padding: 13px 28px; border-radius: 9px; font-size: 14px; font-weight: 500; cursor: pointer; }
-  .btn-secondary { background: #fff; color: #111; border: 0.5px solid #d1d5db; padding: 13px 28px; border-radius: 9px; font-size: 14px; cursor: pointer; }
-  .stats { display: flex; justify-content: center; gap: 48px; padding: 40px; border-top: 0.5px solid #f3f4f6; border-bottom: 0.5px solid #f3f4f6; margin: 0 40px; }
-  .stat-item { text-align: center; }
-  .stat-num { font-size: 28px; font-weight: 500; color: #16a34a; }
-  .stat-label { font-size: 12px; color: #9ca3af; margin-top: 2px; }
-  .pain-section { background: #f0fdf4; border-top: 0.5px solid #bbf7d0; border-bottom: 0.5px solid #bbf7d0; padding: 64px 40px; }
-  .pain-inner { max-width: 800px; margin: 0 auto; }
-  .pain-tag { font-size: 12px; color: #16a34a; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
-  .pain-title { font-size: 34px; font-weight: 500; color: #111; letter-spacing: -0.5px; margin-bottom: 16px; line-height: 1.2; }
-  .pain-title span { color: #16a34a; }
-  .pain-body { font-size: 16px; color: #4b5563; line-height: 1.8; margin-bottom: 28px; max-width: 640px; }
-  .pain-pills { display: flex; flex-wrap: wrap; gap: 10px; }
-  .pain-pill { background: #fff; border: 0.5px solid #bbf7d0; color: #15803d; font-size: 13px; padding: 7px 16px; border-radius: 20px; }
-  .dashboard-preview { margin: 60px 40px; background: #f9fafb; border: 0.5px solid #e5e7eb; border-radius: 16px; overflow: hidden; }
-  .db-topbar { background: #fff; padding: 12px 20px; display: flex; align-items: center; gap: 8px; border-bottom: 0.5px solid #e5e7eb; }
-  .db-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .db-inner { display: flex; min-height: 460px; }
-  .db-sidebar { width: 180px; background: #fff; border-right: 0.5px solid #e5e7eb; padding: 20px 12px; flex-shrink: 0; }
-  .db-sidebar-logo { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: #16a34a; margin-bottom: 24px; padding: 0 8px; }
-  .db-nav-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 7px; font-size: 12px; color: #9ca3af; margin-bottom: 2px; cursor: pointer; }
-  .db-nav-item.active { background: #f0fdf4; color: #16a34a; }
-  .db-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
-  .db-main { flex: 1; padding: 24px; overflow: hidden; background: #f9fafb; }
-  .db-tabs { display: flex; gap: 4px; margin-bottom: 20px; background: #fff; border: 0.5px solid #e5e7eb; border-radius: 9px; padding: 4px; width: fit-content; }
-  .db-tab { padding: 6px 16px; border-radius: 6px; font-size: 12px; cursor: pointer; color: #6b7280; border: none; background: transparent; }
-  .db-tab.active { background: #16a34a; color: #fff; font-weight: 500; }
-  .db-greeting { font-size: 16px; font-weight: 500; color: #111; margin-bottom: 4px; }
-  .db-subline { font-size: 12px; color: #9ca3af; margin-bottom: 20px; }
-  .db-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-  .db-card { background: #fff; border: 0.5px solid #e5e7eb; border-radius: 10px; padding: 14px; }
-  .db-card-label { font-size: 10px; color: #9ca3af; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .db-card-val { font-size: 22px; font-weight: 500; color: #111; }
-  .db-card-change { font-size: 10px; color: #16a34a; margin-top: 2px; }
-  .db-section-title { font-size: 12px; font-weight: 500; color: #6b7280; margin-bottom: 10px; }
-  .db-jobs { display: flex; flex-direction: column; gap: 6px; }
-  .db-job { background: #fff; border: 0.5px solid #e5e7eb; border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; gap: 12px; }
-  .db-job-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; flex-shrink: 0; }
-  .db-job-info { flex: 1; }
-  .db-job-name { font-size: 12px; font-weight: 500; color: #111; }
-  .db-job-desc { font-size: 11px; color: #9ca3af; }
-  .db-job-badge { font-size: 10px; padding: 3px 8px; border-radius: 5px; font-weight: 500; flex-shrink: 0; }
-  .db-job-photo { width: 32px; height: 32px; border-radius: 5px; background: #f0fdf4; border: 0.5px solid #bbf7d0; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
-  .badge-new { background: #dbeafe; color: #1d4ed8; }
-  .badge-confirmed { background: #dcfce7; color: #15803d; }
-  .badge-solar { background: #fef3c7; color: #b45309; }
-  .schedule-view { display: none; }
-  .sched-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-  .sched-week { font-size: 13px; font-weight: 500; color: #111; }
-  .sched-nav { display: flex; gap: 6px; }
-  .sched-nav-btn { width: 28px; height: 28px; border-radius: 6px; border: 0.5px solid #e5e7eb; background: #fff; color: #6b7280; font-size: 14px; cursor: pointer; }
-  .sched-grid { display: grid; grid-template-columns: 48px repeat(5, 1fr); border: 0.5px solid #e5e7eb; border-radius: 10px; overflow: hidden; background: #fff; }
-  .sched-col-header { background: #f9fafb; border-bottom: 0.5px solid #e5e7eb; padding: 8px 6px; text-align: center; font-size: 10px; color: #6b7280; }
-  .sched-col-header.today { background: #f0fdf4; color: #16a34a; font-weight: 500; }
-  .sched-time { font-size: 9px; color: #9ca3af; padding: 6px; border-right: 0.5px solid #e5e7eb; display: flex; align-items: flex-start; background: #fff; min-height: 48px; }
-  .sched-cell { border-left: 0.5px solid #e5e7eb; border-bottom: 0.5px solid #f3f4f6; min-height: 48px; padding: 3px; }
-  .sched-cell.today-col { background: #fafffe; }
-  .sched-event { border-radius: 5px; padding: 4px 6px; font-size: 10px; font-weight: 500; line-height: 1.3; margin-bottom: 2px; }
-  .ev-green { background: #dcfce7; color: #15803d; }
-  .ev-blue { background: #dbeafe; color: #1d4ed8; }
-  .ev-amber { background: #fef3c7; color: #b45309; }
-  .ev-purple { background: #ede9fe; color: #6d28d9; }
-  .ev-gray { background: #f3f4f6; color: #4b5563; }
-  .sched-legend { display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #6b7280; }
-  .legend-dot { width: 8px; height: 8px; border-radius: 2px; }
-  .features { padding: 60px 40px; background: #fff; }
-  .section-label { font-size: 12px; color: #16a34a; text-transform: uppercase; letter-spacing: 1px; text-align: center; margin-bottom: 12px; }
-  .section-title { font-size: 32px; font-weight: 500; text-align: center; color: #111; margin-bottom: 12px; letter-spacing: -0.5px; }
-  .section-sub { font-size: 15px; color: #6b7280; text-align: center; max-width: 480px; margin: 0 auto 48px; }
-  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .feature-card { background: #f9fafb; border: 0.5px solid #e5e7eb; border-radius: 12px; padding: 24px; }
-  .feature-card.highlight { background: #f0fdf4; border: 0.5px solid #bbf7d0; }
-  .feature-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; font-size: 16px; }
-  .feature-card h3 { font-size: 14px; font-weight: 500; color: #111; margin-bottom: 8px; }
-  .feature-card p { font-size: 13px; color: #6b7280; line-height: 1.6; }
-  .feature-new { display: inline-block; background: #16a34a; color: #fff; font-size: 9px; font-weight: 500; padding: 2px 7px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
-  .how-it-works { padding: 60px 40px; background: #f9fafb; border-top: 0.5px solid #e5e7eb; }
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
-  .step { text-align: center; padding: 24px; }
-  .step-num { width: 40px; height: 40px; border-radius: 50%; background: #f0fdf4; border: 0.5px solid #bbf7d0; color: #16a34a; font-size: 15px; font-weight: 500; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
-  .step h3 { font-size: 14px; font-weight: 500; color: #111; margin-bottom: 8px; }
-  .step p { font-size: 13px; color: #6b7280; }
-  .photo-feature { padding: 64px 40px; background: #fff; border-top: 0.5px solid #e5e7eb; }
-  .photo-inner { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-  .photo-left h2 { font-size: 32px; font-weight: 500; color: #111; letter-spacing: -0.5px; margin-bottom: 16px; line-height: 1.2; }
-  .photo-left h2 span { color: #16a34a; }
-  .photo-left p { font-size: 14px; color: #4b5563; line-height: 1.8; margin-bottom: 20px; }
-  .photo-steps { display: flex; flex-direction: column; gap: 14px; }
-  .photo-step { display: flex; align-items: flex-start; gap: 12px; }
-  .photo-step-num { width: 24px; height: 24px; border-radius: 50%; background: #16a34a; color: #fff; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
-  .photo-step-text { font-size: 13px; color: #374151; line-height: 1.6; }
-  .photo-step-text strong { color: #111; }
-  .photo-right { background: #f9fafb; border: 0.5px solid #e5e7eb; border-radius: 14px; padding: 20px; }
-  .photo-mockup-title { font-size: 12px; font-weight: 500; color: #6b7280; margin-bottom: 14px; }
-  .photo-enquiry { background: #fff; border: 0.5px solid #e5e7eb; border-radius: 10px; padding: 14px; }
-  .photo-enquiry-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .photo-enquiry-avatar { width: 28px; height: 28px; border-radius: 50%; background: #dbeafe; color: #1d4ed8; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; }
-  .photo-enquiry-name { font-size: 12px; font-weight: 500; color: #111; }
-  .photo-enquiry-time { font-size: 10px; color: #9ca3af; margin-left: auto; }
-  .photo-enquiry-desc { font-size: 12px; color: #4b5563; margin-bottom: 10px; }
-  .photo-thumbnails { display: flex; gap: 8px; margin-bottom: 10px; }
-  .photo-thumb { width: 56px; height: 56px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 22px; border: 0.5px solid #e5e7eb; background: #f9fafb; }
-  .photo-actions { display: flex; gap: 8px; }
-  .photo-btn { flex: 1; padding: 7px; border-radius: 7px; font-size: 11px; font-weight: 500; cursor: pointer; text-align: center; border: none; }
-  .photo-btn-accept { background: #16a34a; color: #fff; }
-  .photo-btn-decline { background: #f9fafb; color: #6b7280; border: 0.5px solid #e5e7eb; }
-  .who-we-are { padding: 64px 40px; background: #f9fafb; border-top: 0.5px solid #e5e7eb; }
-  .wwa-inner { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-  .wwa-left h2 { font-size: 32px; font-weight: 500; color: #111; letter-spacing: -0.5px; margin-bottom: 16px; }
-  .wwa-left h2 span { color: #16a34a; }
-  .wwa-left p { font-size: 14px; color: #4b5563; line-height: 1.8; margin-bottom: 14px; }
-  .wwa-right { background: #fff; border: 0.5px solid #e5e7eb; border-radius: 14px; padding: 28px; }
-  .wwa-person { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-  .wwa-avatar { width: 48px; height: 48px; border-radius: 50%; background: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500; color: #fff; flex-shrink: 0; }
-  .wwa-name { font-size: 15px; font-weight: 500; color: #111; }
-  .wwa-role { font-size: 12px; color: #6b7280; }
-  .wwa-quote { font-size: 13px; color: #374151; line-height: 1.7; font-style: italic; border-left: 2px solid #16a34a; padding-left: 14px; }
-  .pricing { padding: 64px 40px; background: #fff; border-top: 0.5px solid #e5e7eb; }
-  .pricing-toggle { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 40px; }
-  .toggle-label { font-size: 13px; color: #6b7280; }
-  .toggle-label.active { color: #111; font-weight: 500; }
-  .toggle-track { width: 44px; height: 24px; background: #16a34a; border-radius: 12px; position: relative; cursor: pointer; }
-  .toggle-thumb { width: 18px; height: 18px; background: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: left 0.2s; }
-  .annual-badge { background: #f0fdf4; border: 0.5px solid #bbf7d0; color: #16a34a; font-size: 11px; padding: 3px 10px; border-radius: 20px; }
-  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 900px; margin: 0 auto; }
-  .pricing-card { background: #fff; border: 0.5px solid #e5e7eb; border-radius: 14px; padding: 28px; position: relative; }
-  .pricing-card.featured { border: 2px solid #16a34a; }
-  .pricing-badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: #16a34a; color: #fff; font-size: 11px; font-weight: 500; padding: 3px 14px; border-radius: 20px; white-space: nowrap; }
-  .pricing-plan { font-size: 13px; font-weight: 500; color: #6b7280; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .pricing-price { font-size: 36px; font-weight: 500; color: #111; letter-spacing: -1px; margin-bottom: 4px; }
-  .pricing-price span { font-size: 15px; color: #9ca3af; font-weight: 400; }
-  .pricing-trial { font-size: 12px; color: #16a34a; font-weight: 500; margin-bottom: 8px; }
-  .pricing-desc { font-size: 13px; color: #6b7280; margin-bottom: 24px; line-height: 1.5; }
-  .pricing-divider { border: none; border-top: 0.5px solid #f3f4f6; margin-bottom: 20px; }
-  .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-  .pricing-features li { font-size: 13px; color: #374151; display: flex; align-items: flex-start; gap: 8px; }
-  .check { color: #16a34a; font-weight: 700; flex-shrink: 0; }
-  .cross { color: #d1d5db; font-weight: 700; flex-shrink: 0; }
-  .pricing-features li.muted { color: #9ca3af; }
-  .btn-plan { width: 100%; padding: 11px; border-radius: 9px; font-size: 13px; font-weight: 500; cursor: pointer; border: 0.5px solid #e5e7eb; background: #fff; color: #111; }
-  .btn-plan.green { background: #16a34a; color: #fff; border: none; }
-  .pricing-annual-note { text-align: center; font-size: 12px; color: #9ca3af; margin-top: 20px; max-width: 900px; margin-left: auto; margin-right: auto; }
-  .testimonials { padding: 60px 40px; background: #f9fafb; border-top: 0.5px solid #e5e7eb; }
-  .testimonials-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 48px; }
-  .testimonial { background: #fff; border: 0.5px solid #e5e7eb; border-radius: 12px; padding: 24px; }
-  .testimonial-text { font-size: 14px; color: #374151; line-height: 1.7; margin-bottom: 20px; font-style: italic; }
-  .testimonial-author { display: flex; align-items: center; gap: 10px; }
-  .author-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; }
-  .author-name { font-size: 13px; font-weight: 500; color: #111; }
-  .author-trade { font-size: 11px; color: #9ca3af; }
-  .cta-section { padding: 80px 40px; text-align: center; background: #16a34a; }
-  .cta-section h2 { font-size: 36px; font-weight: 500; color: #fff; margin-bottom: 16px; letter-spacing: -0.5px; }
-  .cta-section p { font-size: 16px; color: rgba(255,255,255,0.75); margin-bottom: 36px; }
-  .cta-input-row { display: flex; gap: 10px; justify-content: center; max-width: 440px; margin: 0 auto; }
-  .cta-input { flex: 1; background: #fff; border: none; border-radius: 9px; padding: 13px 16px; color: #111; font-size: 14px; outline: none; }
-  .cta-input::placeholder { color: #9ca3af; }
-  .btn-white { background: #fff; color: #16a34a; border: none; padding: 13px 24px; border-radius: 9px; font-size: 14px; font-weight: 500; cursor: pointer; }
-  .footer { padding: 32px 40px; border-top: 0.5px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; background: #fff; }
-  .footer-logo { display: flex; align-items: center; gap: 6px; font-size: 16px; font-weight: 500; color: #6b7280; }
-  .footer-logo span { color: #16a34a; }
-  .footer-copy { font-size: 12px; color: #9ca3af; }
-  @media (max-width: 768px) {
-    .nav { padding: 14px 20px; }
-    .nav-links { display: none; }
-    .hero { padding: 48px 20px 40px; }
-    .hero h1 { font-size: 32px; }
-    .stats { gap: 24px; margin: 0 20px; flex-wrap: wrap; }
-    .pain-section { padding: 40px 20px; }
-    .dashboard-preview { margin: 40px 20px; }
-    .db-sidebar { display: none; }
-    .db-cards { grid-template-columns: 1fr 1fr; }
-    .features { padding: 40px 20px; }
-    .features-grid { grid-template-columns: 1fr; }
-    .steps { grid-template-columns: 1fr; }
-    .photo-inner { grid-template-columns: 1fr; gap: 24px; }
-    .wwa-inner { grid-template-columns: 1fr; gap: 24px; }
-    .pricing-grid { grid-template-columns: 1fr; }
-    .testimonials-grid { grid-template-columns: 1fr; }
-    .cta-input-row { flex-direction: column; }
-    .footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 20px; }
-  }
-</style>
-</head>
-<body>
+<title>Láimhe</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,700&family=Inter:wght@400;500;600&display=swap">
 
-<nav class="nav">
-  <a href="#" class="nav-logo">
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="7.5" y="1" width="3" height="9" rx="1.5" fill="#16a34a"/><rect x="7.5" y="11" width="3" height="6" rx="1" fill="#15803d"/><rect x="5" y="9" width="8" height="2.5" rx="1" fill="#16a34a"/><circle cx="9" cy="3.5" r="1" fill="#fff" opacity="0.6"/></svg>
-    Láimhe<span>.</span>
-  </a>
-  <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#how-it-works">How it works</a>
-    <a href="#who-we-are">Who we are</a>
-    <a href="#pricing">Pricing</a>
+<style>
+/*
+  LÁIMHE — Airtasker-inspired layout
+  Full-bleed hero photo · editorial section splits · green theme
+  Tokens: forest green accent, warm off-white bg, near-black type
+*/
+:root {
+  --green:      #1A6B47;
+  --green-dark: #0F4029;
+  --green-mid:  #2D8A5E;
+  --green-light:#E6F4EE;
+  --amber:      #C9792A;
+  --amber-light:#FDF3E7;
+  --bg:         #FAFAF8;
+  --bg-alt:     #F2F0EB;
+  --fg:         #141412;
+  --fg-mid:     #4A4845;
+  --fg-soft:    #8A8880;
+  --card:       #FFFFFF;
+  --border:     rgba(20,20,18,.10);
+  --border-mid: rgba(20,20,18,.16);
+  --r:          10px;
+  color-scheme: light;
+}
+/* deliberate single-theme — photography-led pages work best in light */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── UTIL ── */
+.wrap { max-width: 1160px; margin-inline: auto; padding-inline: 28px; }
+.sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 26px;
+  border-radius: 100px;
+  font-size: .925rem; font-weight: 600;
+  text-decoration: none; border: none; cursor: pointer;
+  transition: all .18s;
+  white-space: nowrap;
+}
+.btn-green  { background: var(--green); color: #fff; }
+.btn-green:hover  { background: var(--green-dark); }
+.btn-outline { background: transparent; color: var(--fg); border: 2px solid var(--border-mid); }
+.btn-outline:hover { border-color: var(--fg); }
+.btn-white  { background: #fff; color: var(--green); }
+.btn-white:hover { background: var(--green-light); }
+.btn-sm { padding: 10px 20px; font-size: .85rem; }
+
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: env(safe-area-inset-top,0px);
+  z-index: 100;
+  background: rgba(250,250,248,.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding-inline: 28px;
+}
+.nav-inner {
+  max-width: 1160px; margin-inline: auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; gap: 16px;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
+}
+.logo-mark {
+  width: 36px; height: 36px;
+  background: var(--green); border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-mark svg { width: 20px; height: 20px; }
+.logo-name {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.4rem; font-weight: 700;
+  color: var(--fg); letter-spacing: -.02em;
+}
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-size: .9rem; font-weight: 500;
+  color: var(--fg-mid); text-decoration: none;
+  transition: color .15s;
+}
+.nav-links a:hover { color: var(--fg); }
+.nav-right { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+@media (max-width: 768px) { .nav-links { display: none; } }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 560px;
+  display: flex; align-items: center;
+  overflow: hidden;
+  background: var(--green-dark);
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=1600&q=80&auto=format&fit=crop');
+  background-size: cover; background-position: center 30%;
+  opacity: .38;
+}
+.hero-content {
+  position: relative; z-index: 1;
+  padding: 80px 28px;
+  max-width: 1160px; margin-inline: auto;
+  width: 100%;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-size: .76rem; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: rgba(255,255,255,.85);
+  margin-bottom: 26px;
+}
+.hero h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -.03em;
+  color: #fff;
+  text-wrap: balance;
+  max-width: 700px;
+  margin-bottom: 22px;
+}
+.hero h1 em { font-style: italic; color: #74C69D; }
+.hero-sub {
+  font-size: clamp(.95rem, 2vw, 1.12rem);
+  color: rgba(255,255,255,.72);
+  max-width: 480px; line-height: 1.7;
+  margin-bottom: 36px;
+}
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 52px; }
+.hero-proof {
+  display: flex; gap: 32px; flex-wrap: wrap;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,.14);
+}
+.proof-item { display: flex; flex-direction: column; }
+.proof-num {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.9rem; font-weight: 700;
+  color: #fff; line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.proof-label { font-size: .8rem; color: rgba(255,255,255,.58); font-weight: 500; margin-top: 3px; }
+
+/* ── PAIN — horizontal scroll chips ── */
+.pain-strip {
+  background: var(--bg-alt);
+  padding: 52px 0;
+  border-bottom: 1px solid var(--border);
+}
+.pain-label {
+  font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--green);
+  margin-bottom: 10px;
+}
+.pain-heading {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 700; letter-spacing: -.02em;
+  line-height: 1.2; text-wrap: balance;
+  margin-bottom: 32px;
+}
+.pain-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+.pain-chip {
+  display: flex; align-items: center; gap: 9px;
+  padding: 10px 18px;
+  background: var(--card);
+  border: 1px solid var(--border-mid);
+  border-radius: 100px;
+  font-size: .875rem; font-weight: 500;
+  color: var(--fg-mid);
+}
+.pain-chip .chip-icon { font-size: 1rem; }
+
+/* ── LIFECYCLE ── */
+.lifecycle { padding: 96px 0; }
+.section-label {
+  font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--green);
+  margin-bottom: 10px;
+}
+.section-h {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+  font-weight: 700; letter-spacing: -.025em;
+  line-height: 1.12; text-wrap: balance;
+  margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 1.05rem; color: var(--fg-mid);
+  max-width: 520px; line-height: 1.7;
+  margin-bottom: 52px;
+}
+.lifecycle-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px; align-items: center;
+}
+@media (max-width: 860px) { .lifecycle-split { grid-template-columns: 1fr; } }
+
+.lifecycle-steps { display: flex; flex-direction: column; gap: 0; }
+.lc-step {
+  display: flex; gap: 18px; align-items: flex-start;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+}
+.lc-step:last-child { border-bottom: none; }
+.lc-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--green-light); color: var(--green);
+  font-weight: 700; font-size: .85rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+.lc-step.highlight .lc-num { background: var(--amber); color: #fff; }
+.lc-body h3 { font-size: .95rem; font-weight: 700; margin-bottom: 3px; }
+.lc-body p { font-size: .875rem; color: var(--fg-mid); line-height: 1.6; }
+.lc-step.highlight .lc-body h3 { color: var(--amber); }
+
+.lifecycle-photo {
+  position: relative; border-radius: 16px; overflow: hidden;
+  aspect-ratio: 4/5;
+}
+.lifecycle-photo img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.lc-card {
+  position: absolute; bottom: 24px; left: 24px; right: 24px;
+  background: rgba(255,255,255,.95);
+  backdrop-filter: blur(8px);
+  border-radius: 12px; padding: 16px 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.18);
+}
+.lc-card-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--amber); margin-bottom: 6px; }
+.lc-card-title { font-weight: 700; font-size: .95rem; margin-bottom: 2px; }
+.lc-card-meta { font-size: .8rem; color: var(--fg-mid); }
+.lc-card-amount { font-family: 'Fraunces', Georgia, serif; font-size: 1.5rem; font-weight: 700; color: var(--green); margin-top: 8px; font-variant-numeric: tabular-nums; }
+
+/* ── FEATURES — alternating photo/text ── */
+.features { background: var(--bg-alt); padding: 96px 0; }
+.feat-split {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 72px; align-items: center;
+  padding: 64px 0;
+  border-bottom: 1px solid var(--border);
+}
+.feat-split:first-child { padding-top: 0; }
+.feat-split:last-child { border-bottom: none; padding-bottom: 0; }
+.feat-split.flip { direction: rtl; }
+.feat-split.flip > * { direction: ltr; }
+@media (max-width: 860px) {
+  .feat-split, .feat-split.flip { grid-template-columns: 1fr; direction: ltr; }
+  .feat-split.flip > * { direction: ltr; }
+}
+.feat-photo {
+  border-radius: 16px; overflow: hidden;
+  aspect-ratio: 4/3; position: relative;
+}
+.feat-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.feat-badge {
+  position: absolute; top: 18px; left: 18px;
+  background: var(--green); color: #fff;
+  font-size: .7rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 100px;
+}
+.feat-badge.amber { background: var(--amber); }
+.feat-text { display: flex; flex-direction: column; gap: 0; }
+.feat-text .section-label { margin-bottom: 10px; }
+.feat-text h2 { margin-bottom: 16px; }
+.feat-text p {
+  font-size: 1.05rem; color: var(--fg-mid);
+  line-height: 1.75; margin-bottom: 28px;
+}
+.feat-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+.feat-list li {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: .925rem; color: var(--fg-mid); line-height: 1.5;
+}
+.feat-list li::before {
+  content: '';
+  display: block; flex-shrink: 0;
+  width: 20px; height: 20px; margin-top: 1px;
+  border-radius: 50%;
+  background: var(--green-light) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1 5l3.5 3.5L11 1' stroke='%231A6B47' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat;
+}
+
+/* ── DASHBOARD PREVIEW ── */
+.dashboard { padding: 96px 0; }
+.dash-frame {
+  background: var(--card);
+  border: 1px solid var(--border-mid);
+  border-radius: 16px;
+  box-shadow: 0 12px 48px rgba(0,0,0,.10);
+  overflow: hidden;
+  margin-top: 52px;
+}
+.dash-bar {
+  background: var(--green-dark);
+  padding: 12px 20px;
+  display: flex; align-items: center; gap: 14px;
+  flex-wrap: wrap;
+}
+.dash-dots { display: flex; gap: 6px; }
+.dd { width: 12px; height: 12px; border-radius: 50%; }
+.dd.r { background: #FF5F57; } .dd.y { background: #FEBC2E; } .dd.g { background: #28C840; }
+.dash-url { font-size: .8rem; color: rgba(255,255,255,.45); flex: 1; min-width: 0; }
+.dash-badge { font-size: .75rem; font-weight: 700; background: var(--amber); color: #fff; padding: 3px 10px; border-radius: 100px; white-space: nowrap; }
+
+.dash-tabs {
+  display: flex; border-bottom: 1px solid var(--border);
+  overflow-x: auto; scrollbar-width: none;
+}
+.dash-tabs::-webkit-scrollbar { display: none; }
+.dtab {
+  padding: 12px 22px; font-size: .875rem; font-weight: 600;
+  color: var(--fg-soft); border: none; background: none;
+  cursor: pointer; border-bottom: 2px solid transparent;
+  white-space: nowrap; transition: all .15s;
+}
+.dtab.on { color: var(--green); border-bottom-color: var(--green); }
+
+.dash-body { padding: 20px; }
+.tab-panel { display: none; }
+.tab-panel.on { display: block; }
+
+/* job list */
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.fchip {
+  padding: 5px 14px; border-radius: 100px;
+  font-size: .78rem; font-weight: 600;
+  border: 1px solid var(--border-mid);
+  background: transparent; color: var(--fg-mid);
+  cursor: pointer; white-space: nowrap; transition: all .15s;
+}
+.fchip.on { background: var(--green); color: #fff; border-color: var(--green); }
+.fchip.amber.on { background: var(--amber); border-color: var(--amber); }
+
+.jlist { display: flex; flex-direction: column; gap: 10px; }
+.jrow {
+  display: grid;
+  grid-template-columns: 10px 1fr auto auto;
+  gap: 14px; align-items: center;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 13px 16px;
+}
+.jpriority { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; align-self: center; }
+.jp-high { background: #E53935; }
+.jp-mid  { background: var(--green); }
+.jp-low  { background: var(--fg-soft); }
+.jmain {}
+.jname { font-size: .9rem; font-weight: 600; margin-bottom: 3px; }
+.jmeta { font-size: .78rem; color: var(--fg-mid); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.jcat {
+  font-size: .7rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 4px;
+  background: var(--green-light); color: var(--green);
+}
+.jcat.ev  { background: #E0F2FE; color: #0369A1; }
+.jcat.sol { background: #FEF9C3; color: #854D0E; }
+.jcat.flt { background: #FEE2E2; color: #B91C1C; }
+.jstatus {
+  padding: 4px 12px; border-radius: 100px;
+  font-size: .75rem; font-weight: 700; white-space: nowrap;
+}
+.st-enq   { background: var(--bg-alt); color: var(--fg-mid); }
+.st-qte   { background: #EDE9FE; color: #6D28D9; }
+.st-prog  { background: #DBEAFE; color: #1D4ED8; }
+.st-inv   { background: var(--amber-light); color: var(--amber); border: 1px solid rgba(201,121,42,.25); }
+.st-paid  { background: var(--green-light); color: var(--green); }
+.jvisits { font-size: .78rem; color: var(--fg-soft); white-space: nowrap; }
+
+/* invoice tab */
+.inv-alert {
+  display: flex; gap: 12px; align-items: center;
+  background: var(--amber-light); border: 1px solid rgba(201,121,42,.22);
+  border-radius: 8px; padding: 14px 18px; margin-bottom: 16px;
+  font-size: .88rem; font-weight: 600; color: var(--amber);
+}
+.ilist { display: flex; flex-direction: column; gap: 10px; }
+.irow {
+  display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 16px;
+}
+.imain { flex: 1; min-width: 0; }
+.iname { font-size: .9rem; font-weight: 600; }
+.imeta { font-size: .78rem; color: var(--fg-mid); }
+.iamt { font-weight: 700; font-size: 1rem; color: var(--green); font-variant-numeric: tabular-nums; }
+.ibtn {
+  padding: 7px 16px; background: var(--amber); color: #fff;
+  border: none; border-radius: 8px;
+  font-size: .8rem; font-weight: 700; cursor: pointer; white-space: nowrap;
+}
+
+/* schedule tab */
+.sday-label { font-size: .78rem; font-weight: 700; color: var(--fg-soft); text-transform: uppercase; letter-spacing: .07em; padding-bottom: 8px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+.sday + .sday { margin-top: 20px; }
+.sitems { display: flex; flex-direction: column; gap: 8px; }
+.sitem {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px 14px;
+}
+.stime { font-size: .8rem; font-weight: 700; color: var(--fg-mid); font-variant-numeric: tabular-nums; white-space: nowrap; min-width: 46px; }
+.sstripe { width: 3px; border-radius: 2px; background: var(--green); flex-shrink: 0; align-self: stretch; }
+.sstripe.a { background: var(--amber); }
+.sinfo { flex: 1; min-width: 0; }
+.sname { font-size: .88rem; font-weight: 700; margin-bottom: 2px; }
+.ssub  { font-size: .78rem; color: var(--fg-mid); }
+.sbadge {
+  font-size: .72rem; font-weight: 700; padding: 3px 10px; border-radius: 100px;
+  background: var(--green-light); color: var(--green); white-space: nowrap; flex-shrink: 0;
+}
+.sbadge.a { background: var(--amber-light); color: var(--amber); }
+.comment {
+  margin-top: 8px; padding: 8px 12px;
+  background: var(--bg-alt); border-left: 3px solid var(--green);
+  border-radius: 0 6px 6px 0;
+}
+.cmeta { font-size: .7rem; color: var(--fg-soft); margin-bottom: 2px; }
+.ctext { font-size: .8rem; color: var(--fg-mid); font-style: italic; }
+
+/* ── PRICING ── */
+.pricing { background: var(--bg-alt); padding: 96px 0; }
+.ptoggle {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 44px; flex-wrap: wrap;
+}
+.plabel { font-size: .9rem; font-weight: 600; color: var(--fg-soft); }
+.plabel.on { color: var(--fg); }
+.toggle-sw { position: relative; width: 48px; height: 27px; cursor: pointer; flex-shrink: 0; }
+.toggle-sw input { opacity: 0; width: 0; height: 0; }
+.sw-track { position: absolute; inset: 0; background: var(--border-mid); border-radius: 14px; transition: background .2s; }
+.toggle-sw input:checked + .sw-track { background: var(--green); }
+.sw-knob { position: absolute; top: 3.5px; left: 3.5px; width: 20px; height: 20px; background: #fff; border-radius: 50%; transition: transform .2s; }
+.toggle-sw input:checked ~ .sw-knob { transform: translateX(21px); }
+.psave { font-size: .78rem; font-weight: 700; background: var(--green-light); color: var(--green); padding: 3px 12px; border-radius: 100px; }
+
+.pgrid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 20px;
+}
+.pcard {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 32px 28px;
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.pcard.pop { border-color: var(--green); box-shadow: 0 0 0 2px var(--green); }
+.pbadge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--green); color: #fff;
+  font-size: .7rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+  padding: 4px 16px; border-radius: 100px; white-space: nowrap;
+}
+.pname { font-size: .78rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--fg-soft); margin-bottom: 8px; }
+.pamount { display: flex; align-items: baseline; gap: 3px; margin-bottom: 4px; }
+.pcurr { font-size: 1.2rem; font-weight: 700; margin-top: 8px; align-self: flex-start; }
+.pnum {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 3.2rem; font-weight: 900;
+  line-height: 1; color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+.pper { font-size: .9rem; color: var(--fg-soft); }
+.pannual { font-size: .8rem; color: var(--green); font-weight: 600; min-height: 18px; margin-bottom: 10px; }
+.pteam { font-size: .875rem; color: var(--fg-soft); margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.pfeats { list-style: none; flex: 1; display: flex; flex-direction: column; gap: 10px; margin-bottom: 26px; }
+.pfeats li { font-size: .875rem; color: var(--fg-mid); display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; }
+.pfeats li::before {
+  content: '';
+  width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px;
+  border-radius: 50%;
+  background: var(--green-light) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1 5l3.5 3.5L11 1' stroke='%231A6B47' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/10px no-repeat;
+}
+.ptrial { font-size: .76rem; color: var(--fg-soft); text-align: center; margin-top: 10px; }
+
+/* ── CTA ── */
+.cta-section {
+  position: relative; overflow: hidden;
+  background: var(--green-dark);
+  padding: 96px 28px; text-align: center;
+}
+.cta-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=70&auto=format&fit=crop');
+  background-size: cover; background-position: center;
+  opacity: .15;
+}
+.cta-inner { position: relative; z-index: 1; max-width: 640px; margin-inline: auto; }
+.cta-section h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900; letter-spacing: -.03em;
+  color: #fff; text-wrap: balance; margin-bottom: 16px;
+}
+.cta-section p { color: rgba(255,255,255,.68); font-size: 1.05rem; margin-bottom: 36px; }
+.email-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; }
+.email-in {
+  flex: 1; min-width: 220px; max-width: 320px;
+  padding: 13px 20px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,.3);
+  background: rgba(255,255,255,.10);
+  color: #fff; font-size: .95rem; outline: none;
+}
+.email-in::placeholder { color: rgba(255,255,255,.4); }
+.email-in:focus { border-color: rgba(255,255,255,.55); background: rgba(255,255,255,.16); }
+.cta-note { font-size: .78rem; color: rgba(255,255,255,.42); }
+.cta-note span { color: rgba(255,255,255,.7); }
+
+/* ── FOOTER ── */
+footer { padding: 40px 28px; border-top: 1px solid var(--border); background: var(--bg); }
+.foot-inner {
+  max-width: 1160px; margin-inline: auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+}
+.foot-left { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.foot-copy { font-size: .82rem; color: var(--fg-soft); }
+.foot-links { display: flex; gap: 18px; }
+.foot-links a { font-size: .82rem; color: var(--fg-soft); text-decoration: none; }
+.foot-links a:hover { color: var(--fg-mid); }
+.foot-flag { font-size: .82rem; color: var(--fg-soft); display: flex; align-items: center; gap: 6px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .jrow { grid-template-columns: 8px 1fr auto; }
+  .jvisits { display: none; }
+  .feat-split { gap: 32px; }
+}
+</style>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
+      </div>
+      <span class="logo-name">Láimhe</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="#pricing" class="btn btn-outline btn-sm">Log in</a>
+      <a href="#cta" class="btn btn-green btn-sm">Start free trial</a>
+    </div>
   </div>
-  <button class="nav-cta">Start free trial</button>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">🇮🇪 Built for Irish tradespeople</div>
-  <h1>Your jobs.<br>Your schedule.<br><span>Your control.</span></h1>
-  <p>Láimhe puts every enquiry, booking, and reminder in one place — so you can focus on the work, not the admin.</p>
-  <div class="hero-buttons">
-    <button class="btn-primary">Start 30-day free trial</button>
-    <button class="btn-secondary">See how it works</button>
-  </div>
-</section>
-
-<div class="stats">
-  <div class="stat-item"><div class="stat-num">3.2hrs</div><div class="stat-label">saved per week on average</div></div>
-  <div class="stat-item"><div class="stat-num">94%</div><div class="stat-label">fewer missed enquiries</div></div>
-  <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">tradesperson stays in control</div></div>
-</div>
-
-<section class="pain-section">
-  <div class="pain-inner">
-    <div class="pain-tag">Sound familiar?</div>
-    <div class="pain-title">Tired of drowning in<br><span>WhatsApp messages?</span></div>
-    <div class="pain-body">You're brilliant at your trade. But between the missed calls, the messages scattered across three different apps, the customers who don't show up, arriving unprepared for a job, and the Sunday night scramble to figure out your week — the admin is eating you alive. You didn't start your business to spend your evenings chasing messages. Láimhe fixes that.</div>
-    <div class="pain-pills">
-      <div class="pain-pill">Lost enquiries in WhatsApp</div>
-      <div class="pain-pill">Double bookings</div>
-      <div class="pain-pill">Customer no-shows</div>
-      <div class="pain-pill">Arriving unprepared for a job</div>
-      <div class="pain-pill">Sunday night scheduling stress</div>
-      <div class="pain-pill">Jobs falling through the cracks</div>
-      <div class="pain-pill">Wasted site visits</div>
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">🇮🇪 Built for Irish tradespeople</div>
+    <h1>Every job tracked.<br><em>Every invoice sent.</em></h1>
+    <p class="hero-sub">From the first enquiry to the final payment — Láimhe keeps every job moving so nothing falls through and no money gets left on the table.</p>
+    <div class="hero-btns">
+      <a href="#cta" class="btn btn-white">Start 30-day free trial</a>
+      <a href="#how-it-works" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.35)">See how it works</a>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-item">
+        <span class="proof-num">1</span>
+        <span class="proof-label">inbox for all enquiries</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-num">€0</span>
+        <span class="proof-label">lost to uninvoiced jobs</span>
+      </div>
+      <div class="proof-item">
+        <span class="proof-num">30 days</span>
+        <span class="proof-label">free trial, no card needed</span>
+      </div>
     </div>
   </div>
 </section>
 
-<div class="dashboard-preview">
-  <div class="db-topbar">
-    <div class="db-dot" style="background:#ef4444;"></div>
-    <div class="db-dot" style="background:#f59e0b;"></div>
-    <div class="db-dot" style="background:#22c55e;"></div>
-    <span style="font-size:11px;color:#9ca3af;margin-left:8px;">app.laimhe.ie</span>
-  </div>
-  <div class="db-inner">
-    <div class="db-sidebar">
-      <div class="db-sidebar-logo">
-        <svg width="13" height="13" viewBox="0 0 18 18" fill="none"><rect x="7.5" y="1" width="3" height="9" rx="1.5" fill="#16a34a"/><rect x="7.5" y="11" width="3" height="6" rx="1" fill="#15803d"/><rect x="5" y="9" width="8" height="2.5" rx="1" fill="#16a34a"/></svg>
-        Láimhe.
-      </div>
-      <div class="db-nav-item active" onclick="switchTab('enquiries')"><div class="db-nav-dot"></div> Dashboard</div>
-      <div class="db-nav-item" onclick="switchTab('enquiries')"><div class="db-nav-dot"></div> Enquiries</div>
-      <div class="db-nav-item" onclick="switchTab('enquiries')"><div class="db-nav-dot"></div> Bookings</div>
-      <div class="db-nav-item" onclick="switchTab('schedule')"><div class="db-nav-dot"></div> Schedule</div>
-      <div class="db-nav-item" onclick="switchTab('enquiries')"><div class="db-nav-dot"></div> Reminders</div>
-      <div class="db-nav-item" onclick="switchTab('enquiries')"><div class="db-nav-dot"></div> Settings</div>
-    </div>
-    <div class="db-main">
-      <div class="db-tabs">
-        <button class="db-tab active" onclick="switchTab('enquiries')">Enquiries</button>
-        <button class="db-tab" onclick="switchTab('schedule')">Schedule</button>
-      </div>
-      <div id="view-enquiries">
-        <div class="db-greeting">Good morning, Liam.</div>
-        <div class="db-subline">You have 4 new enquiries and 3 jobs confirmed this week.</div>
-        <div class="db-cards">
-          <div class="db-card"><div class="db-card-label">New enquiries</div><div class="db-card-val">4</div><div class="db-card-change">+3 since yesterday</div></div>
-          <div class="db-card"><div class="db-card-label">Confirmed jobs</div><div class="db-card-val">7</div><div class="db-card-change">This week</div></div>
-          <div class="db-card"><div class="db-card-label">Reminders sent</div><div class="db-card-val">12</div><div class="db-card-change">Auto-sent today</div></div>
-        </div>
-        <div class="db-section-title">Recent enquiries</div>
-        <div class="db-jobs">
-          <div class="db-job"><div class="db-job-avatar" style="background:#dbeafe;color:#1d4ed8;">MC</div><div class="db-job-info"><div class="db-job-name">Mary Collins</div><div class="db-job-desc">Fuse board upgrade — Rathmines, Dublin 6</div></div><div class="db-job-photo">📸</div><div class="db-job-badge badge-new">New</div></div>
-          <div class="db-job"><div class="db-job-avatar" style="background:#fef3c7;color:#b45309;">PF</div><div class="db-job-info"><div class="db-job-name">Padraig Flynn</div><div class="db-job-desc">Solar panel installation — Sandyford, Dublin 18</div></div><div class="db-job-photo">📸</div><div class="db-job-badge badge-solar">Solar</div></div>
-          <div class="db-job"><div class="db-job-avatar" style="background:#dcfce7;color:#15803d;">SO</div><div class="db-job-info"><div class="db-job-name">Siobhán O'Brien</div><div class="db-job-desc">Full rewire — Bray, Co. Wicklow</div></div><div class="db-job-photo" style="background:#f9fafb;border-color:#e5e7eb;font-size:11px;color:#9ca3af;">—</div><div class="db-job-badge badge-confirmed">Confirmed</div></div>
-          <div class="db-job"><div class="db-job-avatar" style="background:#ede9fe;color:#6d28d9;">CT</div><div class="db-job-info"><div class="db-job-name">Ciarán Tully</div><div class="db-job-desc">EV charger install — Cabinteely, Dublin</div></div><div class="db-job-photo">📸</div><div class="db-job-badge badge-new">New</div></div>
-        </div>
-      </div>
-      <div id="view-schedule" class="schedule-view">
-        <div class="sched-header">
-          <div class="sched-week">Week of 28 April — 2 May 2026</div>
-          <div class="sched-nav"><button class="sched-nav-btn">&#8592;</button><button class="sched-nav-btn">&#8594;</button></div>
-        </div>
-        <div class="sched-grid">
-          <div class="sched-col-header" style="background:#f9fafb;"></div>
-          <div class="sched-col-header">Mon 28</div>
-          <div class="sched-col-header today">Tue 29</div>
-          <div class="sched-col-header">Wed 30</div>
-          <div class="sched-col-header">Thu 1</div>
-          <div class="sched-col-header">Fri 2</div>
-          <div class="sched-time">8am</div>
-          <div class="sched-cell"><div class="sched-event ev-green">Siobhán O.<br>Full rewire</div></div>
-          <div class="sched-cell today-col"><div class="sched-event ev-blue">Mary C.<br>Fuse board</div></div>
-          <div class="sched-cell"></div>
-          <div class="sched-cell"><div class="sched-event ev-amber">Padraig F.<br>Solar install</div></div>
-          <div class="sched-cell"></div>
-          <div class="sched-time">10am</div>
-          <div class="sched-cell"></div>
-          <div class="sched-cell today-col"></div>
-          <div class="sched-cell"><div class="sched-event ev-purple">Ciarán T.<br>EV charger</div></div>
-          <div class="sched-cell"></div>
-          <div class="sched-cell"><div class="sched-event ev-green">Bernie D.<br>Consumer unit</div></div>
-          <div class="sched-time">12pm</div>
-          <div class="sched-cell"><div class="sched-event ev-gray">Lunch</div></div>
-          <div class="sched-cell today-col"><div class="sched-event ev-gray">Lunch</div></div>
-          <div class="sched-cell"><div class="sched-event ev-gray">Lunch</div></div>
-          <div class="sched-cell"><div class="sched-event ev-gray">Lunch</div></div>
-          <div class="sched-cell"><div class="sched-event ev-gray">Lunch</div></div>
-          <div class="sched-time">2pm</div>
-          <div class="sched-cell"></div>
-          <div class="sched-cell today-col"><div class="sched-event ev-amber">Quote — Foxrock<br>Solar array</div></div>
-          <div class="sched-cell"><div class="sched-event ev-blue">Noel B.<br>Rewire quote</div></div>
-          <div class="sched-cell"></div>
-          <div class="sched-cell"></div>
-          <div class="sched-time">4pm</div>
-          <div class="sched-cell"><div class="sched-event ev-purple">Aoife R.<br>EV charger</div></div>
-          <div class="sched-cell today-col"></div>
-          <div class="sched-cell"></div>
-          <div class="sched-cell"><div class="sched-event ev-green">Declan B.<br>Fault finding</div></div>
-          <div class="sched-cell"></div>
-        </div>
-        <div class="sched-legend">
-          <div class="legend-item"><div class="legend-dot" style="background:#dcfce7;border:1px solid #16a34a;"></div> Confirmed</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#dbeafe;border:1px solid #1d4ed8;"></div> Booked</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#fef3c7;border:1px solid #b45309;"></div> Solar</div>
-          <div class="legend-item"><div class="legend-dot" style="background:#ede9fe;border:1px solid #6d28d9;"></div> EV / Tech</div>
-        </div>
-      </div>
+<!-- PAIN STRIP -->
+<section class="pain-strip">
+  <div class="wrap">
+    <p class="pain-label">Sound familiar?</p>
+    <h2 class="pain-heading">Every trade business faces the same problems</h2>
+    <div class="pain-chips">
+      <div class="pain-chip"><span class="chip-icon">📱</span> Six ways to reach you</div>
+      <div class="pain-chip"><span class="chip-icon">💸</span> Finished jobs, no invoice sent</div>
+      <div class="pain-chip"><span class="chip-icon">🔄</span> Multi-day jobs that go dark</div>
+      <div class="pain-chip"><span class="chip-icon">📋</span> No record of what was said on site</div>
+      <div class="pain-chip"><span class="chip-icon">📅</span> Double bookings & gaps in the diary</div>
+      <div class="pain-chip"><span class="chip-icon">🚗</span> Arriving on site unprepared</div>
     </div>
   </div>
-</div>
+</section>
 
+<!-- LIFECYCLE -->
+<section class="lifecycle" id="how-it-works">
+  <div class="wrap">
+    <div class="lifecycle-split">
+      <div>
+        <p class="section-label">How it works</p>
+        <h2 class="section-h">From first contact to paid — in one place</h2>
+        <p class="section-sub">Every job has a status. You always know exactly where each one stands.</p>
+        <div class="lifecycle-steps">
+          <div class="lc-step">
+            <div class="lc-num">1</div>
+            <div class="lc-body">
+              <h3>Enquiry received</h3>
+              <p>Customer submits via your single Láimhe link — with photos if they have them. One inbox, no matter how they found you.</p>
+            </div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num">2</div>
+            <div class="lc-body">
+              <h3>Quote sent & accepted</h3>
+              <p>Send a quote directly from Láimhe. Customer accepts online. Job moves forward automatically.</p>
+            </div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num">3</div>
+            <div class="lc-body">
+              <h3>Scheduled & in progress</h3>
+              <p>Book visits, assign workers, track each visit. Multi-day jobs stay open and accumulate notes as the work progresses.</p>
+            </div>
+          </div>
+          <div class="lc-step highlight">
+            <div class="lc-num">4</div>
+            <div class="lc-body">
+              <h3>Invoice queue — your money</h3>
+              <p>Job completes → automatically lands in your invoice queue. One tap to send. No completed jobs that never got billed.</p>
+            </div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num">5</div>
+            <div class="lc-body">
+              <h3>Paid. Job closed.</h3>
+              <p>Payment tracked. Job archived. Full history kept. Zero chasing.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="lifecycle-photo">
+        <img
+          src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80&auto=format&fit=crop"
+          alt="Electrician working on a consumer unit"
+          loading="lazy"
+        >
+        <div class="lc-card">
+          <div class="lc-card-label">⚠ Awaiting Invoice</div>
+          <div class="lc-card-title">O'Brien Commercial — Full Rewire</div>
+          <div class="lc-card-meta">Completed 7 Oct · 4 visits · Sandyford</div>
+          <div class="lc-card-amount">€1,800</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
 <section class="features" id="features">
-  <div class="section-label">Features</div>
-  <div class="section-title">Everything a tradesperson needs</div>
-  <div class="section-sub">No more lost WhatsApp messages. No more forgotten jobs. Just clean, simple control.</div>
-  <div class="features-grid">
-    <div class="feature-card"><div class="feature-icon" style="background:#dbeafe;">📥</div><h3>Centralised enquiries</h3><p>All job requests land in one inbox — from your website, phone, or social media. Nothing gets lost.</p></div>
-    <div class="feature-card highlight"><div class="feature-icon" style="background:#dcfce7;">📸</div><h3>Photo enquiries <span class="feature-new">NEW</span></h3><p>Customers send a photo of the problem before you arrive. Quote accurately, bring the right parts, no wasted trips.</p></div>
-    <div class="feature-card"><div class="feature-icon" style="background:#dcfce7;">✅</div><h3>Confirmed bookings</h3><p>Send a booking confirmation in one tap. The customer gets it instantly — no confusion, no no-shows.</p></div>
-    <div class="feature-card"><div class="feature-icon" style="background:#fef9c3;">🔔</div><h3>Automatic reminders</h3><p>Láimhe sends reminder messages to your customers before every job. You don't lift a finger.</p></div>
-    <div class="feature-card"><div class="feature-icon" style="background:#f3e8ff;">📅</div><h3>Weekly schedule view</h3><p>See your full week at a glance. Block out time and never double-book again.</p></div>
-    <div class="feature-card"><div class="feature-icon" style="background:#f0fdf4;">🇮🇪</div><h3>Built for Ireland</h3><p>County-aware scheduling, Irish phone formats, and local knowledge baked in from day one.</p></div>
-  </div>
-</section>
+  <div class="wrap">
 
-<section class="photo-feature">
-  <div class="photo-inner">
-    <div class="photo-left">
-      <div class="section-label" style="text-align:left;margin-bottom:12px;">Photo enquiries</div>
-      <h2>Know exactly what you're walking into <span>before you arrive.</span></h2>
-      <p>No more showing up to a job unprepared. With Láimhe, customers send a photo of the problem when they submit their enquiry — so you can assess the job, quote accurately, and bring exactly the right parts.</p>
-      <div class="photo-steps">
-        <div class="photo-step"><div class="photo-step-num">1</div><div class="photo-step-text"><strong>Customer submits enquiry</strong> — fills in the job details and uploads a photo directly from their phone. No login required.</div></div>
-        <div class="photo-step"><div class="photo-step-num">2</div><div class="photo-step-text"><strong>You see it instantly</strong> — the photo appears right in your enquiries inbox alongside the job details.</div></div>
-        <div class="photo-step"><div class="photo-step-num">3</div><div class="photo-step-text"><strong>Accept informed</strong> — you know the job size, complexity, and what parts you need before you even leave the house.</div></div>
+    <!-- Feature 1: One inbox -->
+    <div class="feat-split">
+      <div class="feat-photo">
+        <img
+          src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80&auto=format&fit=crop"
+          alt="Tradesperson checking their phone on site"
+          loading="lazy"
+        >
+        <div class="feat-badge">One inbox</div>
+      </div>
+      <div class="feat-text">
+        <p class="section-label">Contact consolidation</p>
+        <h2 class="section-h">One link. All your enquiries in one place.</h2>
+        <p>WhatsApp, Instagram, Google — customers contact you six different ways. Láimhe gives you one shareable link. Every enquiry lands in the same inbox, neatly sorted, with photos attached.</p>
+        <ul class="feat-list">
+          <li>Share your link in WhatsApp bio, email footer, Google Business</li>
+          <li>Customers upload photos of the problem with their enquiry</li>
+          <li>Accept or decline from your phone — no more scrolling back through WhatsApp</li>
+        </ul>
+        <a href="#cta" class="btn btn-green">Get your enquiry link</a>
       </div>
     </div>
-    <div class="photo-right">
-      <div class="photo-mockup-title">New enquiry — with photo</div>
-      <div class="photo-enquiry">
-        <div class="photo-enquiry-header">
-          <div class="photo-enquiry-avatar">MC</div>
-          <div class="photo-enquiry-name">Mary Collins</div>
-          <div class="photo-enquiry-time">2 mins ago</div>
+
+    <!-- Feature 2: Job tracking -->
+    <div class="feat-split flip">
+      <div class="feat-photo">
+        <img
+          src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80&auto=format&fit=crop"
+          alt="Team of tradespeople on a job site"
+          loading="lazy"
+        >
+        <div class="feat-badge">Multi-day jobs</div>
+      </div>
+      <div class="feat-text">
+        <p class="section-label">Job & visit tracking</p>
+        <h2 class="section-h">Jobs that span days — tracked every step.</h2>
+        <p>A rewire that takes four visits. A commercial fit-out that runs for weeks. Láimhe keeps the job open, logs every visit, and lets workers leave notes so the whole team stays in the loop.</p>
+        <ul class="feat-list">
+          <li>Visit counter — Visit 3 of 4 — always visible</li>
+          <li>Workers leave comments on the job: parts needed, gate codes, site updates</li>
+          <li>Job categories and priority filters so you see what matters first</li>
+        </ul>
+        <a href="#cta" class="btn btn-green">See how it works</a>
+      </div>
+    </div>
+
+    <!-- Feature 3: Invoice queue -->
+    <div class="feat-split">
+      <div class="feat-photo">
+        <img
+          src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80&auto=format&fit=crop"
+          alt="Tradesperson reviewing invoices and paperwork"
+          loading="lazy"
+        >
+        <div class="feat-badge amber">Invoice queue</div>
+      </div>
+      <div class="feat-text">
+        <p class="section-label">Stop losing money</p>
+        <h2 class="section-h">Never miss an invoice again.</h2>
+        <p>Most tradespeople lose thousands every year to completed jobs that were never billed. Láimhe automatically queues every finished job for invoicing. The money you're owed is right there — one tap to send.</p>
+        <ul class="feat-list">
+          <li>Completed job → automatically moves to Awaiting Invoice</li>
+          <li>See exactly how much you're owed, right now</li>
+          <li>Generate and send professional invoices in seconds</li>
+          <li>Track payment status — Sent, Viewed, Paid</li>
+        </ul>
+        <a href="#cta" class="btn btn-green">Stop losing money</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<section class="dashboard">
+  <div class="wrap">
+    <p class="section-label">Live preview</p>
+    <h2 class="section-h">Your dashboard</h2>
+    <p class="section-sub">Filter by category, priority, or status. Always know where every job stands.</p>
+    <div class="dash-frame">
+      <div class="dash-bar">
+        <div class="dash-dots"><div class="dd r"></div><div class="dd y"></div><div class="dd g"></div></div>
+        <span class="dash-url">laimhe.ie/dashboard — Murphy Electrical</span>
+        <span class="dash-badge">3 awaiting invoice</span>
+      </div>
+      <div class="dash-tabs">
+        <button class="dtab on" onclick="showDTab('jobs', this)">All Jobs</button>
+        <button class="dtab" onclick="showDTab('invoice', this)">⚠ Awaiting Invoice (3)</button>
+        <button class="dtab" onclick="showDTab('schedule', this)">Schedule</button>
+      </div>
+      <div class="dash-body">
+
+        <!-- Jobs -->
+        <div class="tab-panel on" id="tp-jobs">
+          <div class="filter-row">
+            <button class="fchip on">All</button>
+            <button class="fchip">In Progress</button>
+            <button class="fchip">Awaiting Invoice</button>
+            <button class="fchip amber on">🔴 High Priority</button>
+            <button class="fchip">EV Charger</button>
+            <button class="fchip">Rewire</button>
+            <button class="fchip">Solar</button>
+          </div>
+          <div class="jlist">
+            <div class="jrow">
+              <div class="jpriority jp-high"></div>
+              <div class="jmain">
+                <div class="jname">Dermot Kelly — Fuseboard Upgrade</div>
+                <div class="jmeta"><span class="jcat">Fuseboard</span> Rathmines, D6 · 📷 2 photos</div>
+              </div>
+              <span class="jstatus st-inv">⚠ Awaiting Invoice</span>
+              <span class="jvisits">1 visit</span>
+            </div>
+            <div class="jrow">
+              <div class="jpriority jp-high"></div>
+              <div class="jmain">
+                <div class="jname">O'Brien Commercial — Full Rewire</div>
+                <div class="jmeta"><span class="jcat">Rewire</span> Sandyford, D18 · Visit 3 of 4</div>
+              </div>
+              <span class="jstatus st-prog">● In Progress</span>
+              <span class="jvisits">3 visits</span>
+            </div>
+            <div class="jrow">
+              <div class="jpriority jp-mid"></div>
+              <div class="jmain">
+                <div class="jname">Siobhán Ní Mhurchú — EV Charger</div>
+                <div class="jmeta"><span class="jcat ev">EV Charger</span> Blackrock · 📷 1 photo</div>
+              </div>
+              <span class="jstatus st-qte">Quoted</span>
+              <span class="jvisits">—</span>
+            </div>
+            <div class="jrow">
+              <div class="jpriority jp-low"></div>
+              <div class="jmain">
+                <div class="jname">Riordan Agri — Solar Install Phase 2</div>
+                <div class="jmeta"><span class="jcat sol">Solar</span> Thurles · Visit 1 of 3</div>
+              </div>
+              <span class="jstatus st-prog">● In Progress</span>
+              <span class="jvisits">1 visit</span>
+            </div>
+            <div class="jrow">
+              <div class="jpriority jp-high"></div>
+              <div class="jmain">
+                <div class="jname">Áine Walsh — Fault Finding, No Power</div>
+                <div class="jmeta"><span class="jcat flt">Fault</span> Drumcondra, D9 · 📷 3 photos</div>
+              </div>
+              <span class="jstatus st-enq">New Enquiry</span>
+              <span class="jvisits">—</span>
+            </div>
+          </div>
         </div>
-        <div class="photo-enquiry-desc">Fuseboard making a buzzing noise and tripping. Happened twice this week. Urgent.</div>
-        <div class="photo-thumbnails">
-          <div class="photo-thumb">🔌</div>
-          <div class="photo-thumb">⚡</div>
+
+        <!-- Invoice -->
+        <div class="tab-panel" id="tp-invoice">
+          <div class="inv-alert">💰 3 completed jobs awaiting invoice — €3,200 outstanding</div>
+          <div class="ilist">
+            <div class="irow"><div class="imain"><div class="iname">Dermot Kelly — Fuseboard Upgrade</div><div class="imeta">Completed 7 Oct · Rathmines · 1 visit</div></div><span class="iamt">€850</span><button class="ibtn">Send Invoice</button></div>
+            <div class="irow"><div class="imain"><div class="iname">Cormac Hennessy — Full Rewire</div><div class="imeta">Completed 5 Oct · Stillorgan · 4 visits</div></div><span class="iamt">€1,800</span><button class="ibtn">Send Invoice</button></div>
+            <div class="irow"><div class="imain"><div class="iname">Bríd Ó'Sé — Consumer Unit</div><div class="imeta">Completed 2 Oct · Swords · 1 visit</div></div><span class="iamt">€550</span><button class="ibtn">Send Invoice</button></div>
+          </div>
         </div>
-        <div class="photo-actions">
-          <button class="photo-btn photo-btn-accept">✓ Accept job</button>
-          <button class="photo-btn photo-btn-decline">✕ Decline</button>
+
+        <!-- Schedule -->
+        <div class="tab-panel" id="tp-schedule">
+          <div class="sday">
+            <div class="sday-label">Monday 13 Oct</div>
+            <div class="sitems">
+              <div class="sitem">
+                <div class="stime">08:00</div>
+                <div class="sstripe"></div>
+                <div class="sinfo">
+                  <div class="sname">O'Brien Commercial — Full Rewire</div>
+                  <div class="ssub">Pádraig + Seán · Sandyford · Visit 4 of 4</div>
+                  <div class="comment"><div class="cmeta">Pádraig, Sun 12 Oct 17:42</div><div class="ctext">"Need 3-phase cable from store before heading out. Gate code is 4821."</div></div>
+                </div>
+                <div class="sbadge a">Multi-day</div>
+              </div>
+            </div>
+          </div>
+          <div class="sday" style="margin-top:20px">
+            <div class="sday-label">Tuesday 14 Oct</div>
+            <div class="sitems">
+              <div class="sitem">
+                <div class="stime">09:30</div>
+                <div class="sstripe a"></div>
+                <div class="sinfo"><div class="sname">Áine Walsh — Fault Finding</div><div class="ssub">Liam · Drumcondra · Single visit</div></div>
+                <div class="sbadge">1 visit</div>
+              </div>
+              <div class="sitem">
+                <div class="stime">14:00</div>
+                <div class="sstripe"></div>
+                <div class="sinfo"><div class="sname">Riordan Agri — Solar Install</div><div class="ssub">Seán · Thurles · Visit 2 of 3</div></div>
+                <div class="sbadge a">Multi-day</div>
+              </div>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
   </div>
 </section>
 
-<section class="how-it-works" id="how-it-works">
-  <div class="section-label">How it works</div>
-  <div class="section-title">Set up in minutes</div>
-  <div class="section-sub">No technical knowledge needed. If you can use WhatsApp, you can use Láimhe.</div>
-  <div class="steps">
-    <div class="step"><div class="step-num">1</div><h3>Create your profile</h3><p>Add your trade, location, and working hours. Takes less than five minutes.</p></div>
-    <div class="step"><div class="step-num">2</div><h3>Receive enquiries</h3><p>Share your Láimhe link. Customers submit job requests — with photos — directly to your dashboard.</p></div>
-    <div class="step"><div class="step-num">3</div><h3>Accept, schedule, done</h3><p>Approve the jobs you want, set the date, and Láimhe handles the rest automatically.</p></div>
-  </div>
-</section>
-
-<section class="who-we-are" id="who-we-are">
-  <div class="wwa-inner">
-    <div class="wwa-left">
-      <div class="section-label" style="text-align:left;margin-bottom:12px;">Who we are</div>
-      <h2>Built by someone who <span>gets it.</span></h2>
-      <p>Láimhe was built out of frustration. Watching skilled tradespeople — electricians, plumbers, tilers, carpenters — lose jobs and waste hours every week not because of their work, but because of the admin chaos around it.</p>
-      <p>We're an Irish team that believes the best tradespeople in the country deserve tools as good as their craft. Láimhe is simple by design — because you shouldn't need a manual to run your own business.</p>
-      <p style="color:#16a34a;font-size:13px;font-weight:500;">— Based in Ireland. Building for Ireland.</p>
-    </div>
-    <div class="wwa-right">
-      <div class="wwa-person">
-        <div class="wwa-avatar">L</div>
-        <div><div class="wwa-name">Liam</div><div class="wwa-role">Founder, Láimhe</div></div>
-      </div>
-      <div class="wwa-quote">"I built Láimhe because I kept seeing brilliant tradespeople losing work to disorganisation — not lack of skill. Every tradesperson in Ireland deserves a tool that works as hard as they do."</div>
-    </div>
-  </div>
-</section>
-
+<!-- PRICING -->
 <section class="pricing" id="pricing">
-  <div class="section-label">Pricing</div>
-  <div class="section-title">Simple, honest pricing</div>
-  <div class="section-sub">No hidden fees. No long contracts. 30 days free — no card required.</div>
-  <div class="pricing-toggle">
-    <span class="toggle-label active">Monthly</span>
-    <div class="toggle-track" onclick="togglePricing()"><div class="toggle-thumb" id="toggle-thumb"></div></div>
-    <span class="toggle-label">Annual</span>
-    <span class="annual-badge">2 months free</span>
-  </div>
-  <div class="pricing-grid">
-    <div class="pricing-card">
-      <div class="pricing-plan">Solo</div>
-      <div class="pricing-price" id="price-solo">€29 <span>/ month</span></div>
-      <div class="pricing-trial">30-day free trial included</div>
-      <div class="pricing-desc">For the self-employed tradesperson who wants to get organised and stay in control.</div>
-      <hr class="pricing-divider">
-      <ul class="pricing-features">
-        <li><span class="check">✓</span> Unlimited enquiries</li>
-        <li><span class="check">✓</span> Customer photo uploads</li>
-        <li><span class="check">✓</span> Booking confirmations</li>
-        <li><span class="check">✓</span> Full schedule view</li>
-        <li><span class="check">✓</span> Automatic reminders</li>
-        <li class="muted"><span class="cross">✕</span> Team management</li>
-        <li class="muted"><span class="cross">✕</span> Utilisation reports</li>
-      </ul>
-      <button class="btn-plan">Start free trial</button>
+  <div class="wrap">
+    <p class="section-label">Pricing</p>
+    <h2 class="section-h">Simple pricing. No surprises.</h2>
+    <p class="section-sub">Start free for 30 days. No card required. Cancel any time.</p>
+    <div class="ptoggle">
+      <span class="plabel on" id="lbl-m">Monthly</span>
+      <label class="toggle-sw">
+        <input type="checkbox" id="atoggle" onchange="doToggle()">
+        <div class="sw-track"></div>
+        <div class="sw-knob"></div>
+      </label>
+      <span class="plabel" id="lbl-a">Annual</span>
+      <span class="psave">Save 2 months</span>
     </div>
-    <div class="pricing-card featured">
-      <div class="pricing-badge">Most popular</div>
-      <div class="pricing-plan">Pro</div>
-      <div class="pricing-price" id="price-pro">€49 <span>/ month</span></div>
-      <div class="pricing-trial">30-day free trial included</div>
-      <div class="pricing-desc">For growing businesses managing a small team of tradespeople.</div>
-      <hr class="pricing-divider">
-      <ul class="pricing-features">
-        <li><span class="check">✓</span> Everything in Solo</li>
-        <li><span class="check">✓</span> Up to 5 team members</li>
-        <li><span class="check">✓</span> Team schedule view</li>
-        <li><span class="check">✓</span> Utilisation gauges</li>
-        <li><span class="check">✓</span> Employee hours tracking</li>
-        <li><span class="check">✓</span> Customer history & notes</li>
-        <li class="muted"><span class="cross">✕</span> Invoice generation</li>
-      </ul>
-      <button class="btn-plan green">Start free trial</button>
-    </div>
-    <div class="pricing-card">
-      <div class="pricing-plan">Business</div>
-      <div class="pricing-price" id="price-business">€79 <span>/ month</span></div>
-      <div class="pricing-trial">30-day free trial included</div>
-      <div class="pricing-desc">For established trade businesses managing multiple teams.</div>
-      <hr class="pricing-divider">
-      <ul class="pricing-features">
-        <li><span class="check">✓</span> Everything in Pro</li>
-        <li><span class="check">✓</span> Unlimited team members</li>
-        <li><span class="check">✓</span> Invoice generation</li>
-        <li><span class="check">✓</span> Advanced utilisation reports</li>
-        <li><span class="check">✓</span> Owner & employee dashboards</li>
-        <li><span class="check">✓</span> Priority support</li>
-        <li><span class="check">✓</span> Early access to new features</li>
-      </ul>
-      <button class="btn-plan">Start free trial</button>
-    </div>
-  </div>
-  <div class="pricing-annual-note" id="annual-note" style="display:none;">Annual pricing saves you 2 months — billed as €290/yr, €490/yr, and €790/yr respectively.</div>
-</section>
-
-<section class="testimonials">
-  <div class="section-label">Testimonials</div>
-  <div class="section-title">Tradespeople love it</div>
-  <div class="section-sub">Early users across Dublin, Cork, and Galway.</div>
-  <div class="testimonials-grid">
-    <div class="testimonial">
-      <div class="testimonial-text">"The photo feature alone is worth it. I used to show up to jobs having no idea what I was walking into. Now I can see the problem before I leave the house and bring exactly what I need."</div>
-      <div class="testimonial-author"><div class="author-avatar" style="background:#dcfce7;color:#15803d;">DM</div><div><div class="author-name">Dermot Murphy</div><div class="author-trade">Electrician, Dublin</div></div></div>
-    </div>
-    <div class="testimonial">
-      <div class="testimonial-text">"Had three no-shows in January. Since I started using Láimhe and the automatic reminders, I haven't had a single one. That alone paid for it ten times over."</div>
-      <div class="testimonial-author"><div class="author-avatar" style="background:#dbeafe;color:#1d4ed8;">AK</div><div><div class="author-name">Aoife Kelly</div><div class="author-trade">Electrician, Cork</div></div></div>
+    <div class="pgrid">
+      <div class="pcard">
+        <div class="pname">Solo</div>
+        <div class="pamount"><span class="pcurr">€</span><span class="pnum" id="p-solo">29</span><span class="pper">/mo</span></div>
+        <div class="pannual" id="a-solo"></div>
+        <div class="pteam">Just you — the sole trader</div>
+        <ul class="pfeats">
+          <li>Unlimited enquiries & jobs</li>
+          <li>Full quote → invoice → paid pipeline</li>
+          <li>Photo enquiries</li>
+          <li>Job categories & priority filters</li>
+          <li>Multi-day job & visit tracking</li>
+          <li>Automatic reminders</li>
+          <li>Your personal enquiry link</li>
+        </ul>
+        <a href="#cta" class="btn btn-outline" style="text-align:center;justify-content:center">Start free trial</a>
+        <p class="ptrial">30 days free · No card required</p>
+      </div>
+      <div class="pcard pop">
+        <div class="pbadge">Most Popular</div>
+        <div class="pname">Pro</div>
+        <div class="pamount"><span class="pcurr">€</span><span class="pnum" id="p-pro">49</span><span class="pper">/mo</span></div>
+        <div class="pannual" id="a-pro"></div>
+        <div class="pteam">Up to 5 team members</div>
+        <ul class="pfeats">
+          <li>Everything in Solo</li>
+          <li>Team schedule & calendar</li>
+          <li>Worker comments per job</li>
+          <li>Visit-level tracking (Visit 2 of 3)</li>
+          <li>Team utilisation gauges</li>
+          <li>Employee dashboard view</li>
+        </ul>
+        <a href="#cta" class="btn btn-green" style="text-align:center;justify-content:center">Start free trial</a>
+        <p class="ptrial">30 days free · No card required</p>
+      </div>
+      <div class="pcard">
+        <div class="pname">Business</div>
+        <div class="pamount"><span class="pcurr">€</span><span class="pnum" id="p-biz">79</span><span class="pper">/mo</span></div>
+        <div class="pannual" id="a-biz"></div>
+        <div class="pteam">Unlimited team members</div>
+        <ul class="pfeats">
+          <li>Everything in Pro</li>
+          <li>Full invoicing & payment tracking</li>
+          <li>Priority Irish phone support</li>
+          <li>Custom job categories</li>
+          <li>Advanced reporting</li>
+          <li>Early access to new features</li>
+        </ul>
+        <a href="#cta" class="btn btn-outline" style="text-align:center;justify-content:center">Start free trial</a>
+        <p class="ptrial">30 days free · No card required</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="cta-section">
-  <h2>Ready to take back your time?</h2>
-  <p>30 days free. No card required. Up and running in minutes.</p>
-  <div class="cta-input-row">
-    <input id="cta-email" class="cta-input" type="email" placeholder="your@email.ie" />
-    <button class="btn-white">Get started</button>
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="cta-inner">
+    <h2>Stop losing money to jobs you forgot to invoice</h2>
+    <p>Join the waitlist. 30-day free trial, no card required.</p>
+    <form class="email-form" onsubmit="doSubmit(event)">
+      <input class="email-in" type="email" id="em" placeholder="your@email.ie" required>
+      <button type="submit" class="btn btn-white">Get early access</button>
+    </form>
+    <p class="cta-note" id="cta-msg"><span>No spam.</span> Unsubscribe any time. Irish data hosting.</p>
   </div>
 </section>
 
-<footer class="footer">
-  <div class="footer-logo">
-    <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><rect x="7.5" y="1" width="3" height="9" rx="1.5" fill="#16a34a"/><rect x="7.5" y="11" width="3" height="6" rx="1" fill="#15803d"/><rect x="5" y="9" width="8" height="2.5" rx="1" fill="#16a34a"/></svg>
-    Láimhe<span>.</span>
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-left">
+      <a class="logo" href="#">
+        <div class="logo-mark" style="width:30px;height:30px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+        </div>
+        <span class="logo-name" style="font-size:1.15rem">Láimhe</span>
+      </a>
+      <span class="foot-copy">© 2025 Láimhe. All rights reserved.</span>
+    </div>
+    <div class="foot-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="foot-flag">🇮🇪 Made in Ireland</div>
   </div>
-  <div class="footer-copy">© 2026 Láimhe. Built in Ireland.</div>
 </footer>
 
 <script>
-  let annual = false;
-  function togglePricing() {
-    annual = !annual;
-    document.getElementById('toggle-thumb').style.left = annual ? '23px' : '3px';
-    document.getElementById('price-solo').innerHTML = annual ? '€290 <span>/ year</span>' : '€29 <span>/ month</span>';
-    document.getElementById('price-pro').innerHTML = annual ? '€490 <span>/ year</span>' : '€49 <span>/ month</span>';
-    document.getElementById('price-business').innerHTML = annual ? '€790 <span>/ year</span>' : '€79 <span>/ month</span>';
-    document.getElementById('annual-note').style.display = annual ? 'block' : 'none';
-    document.querySelectorAll('.toggle-label')[0].classList.toggle('active', !annual);
-    document.querySelectorAll('.toggle-label')[1].classList.toggle('active', annual);
-  }
-  function switchTab(tab) {
-    const eq = document.getElementById('view-enquiries');
-    const sc = document.getElementById('view-schedule');
-    const tabs = document.querySelectorAll('.db-tab');
-    const navItems = document.querySelectorAll('.db-nav-item');
-    if (tab === 'schedule') {
-      eq.style.display = 'none'; sc.style.display = 'block';
-      tabs[0].classList.remove('active'); tabs[1].classList.add('active');
-      navItems.forEach(i => i.classList.remove('active')); navItems[3].classList.add('active');
-    } else {
-      eq.style.display = 'block'; sc.style.display = 'none';
-      tabs[0].classList.add('active'); tabs[1].classList.remove('active');
-      navItems.forEach(i => i.classList.remove('active')); navItems[0].classList.add('active');
-    }
-  }
-  document.getElementById('view-schedule').style.display = 'none';
+function showDTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.dtab').forEach(t => t.classList.remove('on'));
+  document.getElementById('tp-' + id).classList.add('on');
+  btn.classList.add('on');
+}
+
+const mo = {solo:29, pro:49, biz:79};
+const yr = {solo:24, pro:41, biz:66};
+function doToggle() {
+  const on = document.getElementById('atoggle').checked;
+  document.getElementById('lbl-m').classList.toggle('on', !on);
+  document.getElementById('lbl-a').classList.toggle('on', on);
+  ['solo','pro','biz'].forEach(k => {
+    document.getElementById('p-'+k).textContent = on ? yr[k] : mo[k];
+    document.getElementById('a-'+k).textContent = on ? `€${yr[k]*12}/year — 2 months free` : '';
+  });
+}
+
+function doSubmit(e) {
+  e.preventDefault();
+  const m = document.getElementById('cta-msg');
+  m.innerHTML = '<span style="color:#74C69D;font-weight:700">✓ You\'re on the list!</span> We\'ll be in touch soon.';
+  document.getElementById('em').value = '';
+}
 </script>
-</body>
-</html>

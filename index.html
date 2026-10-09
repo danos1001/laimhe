@@ -190,14 +190,14 @@ nav {
   font-size: .875rem; font-weight: 500;
   color: var(--fg-mid);
 }
-.pain-chip::before {
-  content: '';
-  display: block; flex-shrink: 0;
-  width: 7px; height: 7px;
+.pain-chip-icon {
+  display: flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; flex-shrink: 0;
+  background: var(--green-light);
   border-radius: 50%;
-  background: var(--green);
-  opacity: .7;
+  color: var(--green);
 }
+.pain-chip-icon svg { width: 12px; height: 12px; }
 
 /* ── LIFECYCLE ── */
 .lifecycle { padding: 96px 0; }
@@ -225,24 +225,33 @@ nav {
 }
 @media (max-width: 860px) { .lifecycle-split { grid-template-columns: 1fr; } }
 
-.lifecycle-steps { display: flex; flex-direction: column; gap: 0; }
-.lc-step {
-  display: flex; gap: 18px; align-items: flex-start;
-  padding: 22px 0;
-  border-bottom: 1px solid var(--border);
+/* horizontal timeline */
+.lc-timeline {
+  display: flex; flex-direction: column; gap: 0;
+  position: relative;
 }
-.lc-step:last-child { border-bottom: none; }
+.lc-timeline::before {
+  content: '';
+  position: absolute; left: 17px; top: 36px; bottom: 36px;
+  width: 2px; background: var(--border-mid);
+}
+.lc-step {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 10px 0; position: relative;
+}
 .lc-num {
-  width: 36px; height: 36px; border-radius: 50%;
+  width: 34px; height: 34px; border-radius: 50%;
   background: var(--green-light); color: var(--green);
-  font-weight: 700; font-size: .85rem;
+  font-weight: 700; font-size: .82rem;
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
+  flex-shrink: 0; position: relative; z-index: 1;
+  border: 2px solid var(--bg);
   font-variant-numeric: tabular-nums;
 }
-.lc-step.highlight .lc-num { background: var(--amber); color: #fff; }
-.lc-body h3 { font-size: .95rem; font-weight: 700; margin-bottom: 3px; }
-.lc-body p { font-size: .875rem; color: var(--fg-mid); line-height: 1.6; }
+.lc-step.highlight .lc-num { background: var(--amber); color: #fff; border-color: var(--bg); }
+.lc-body { padding-top: 6px; }
+.lc-body h3 { font-size: .92rem; font-weight: 700; margin-bottom: 2px; line-height: 1.3; }
+.lc-body p { font-size: .82rem; color: var(--fg-mid); line-height: 1.5; }
 .lc-step.highlight .lc-body h3 { color: var(--amber); }
 
 .lifecycle-photo {
@@ -616,12 +625,30 @@ footer { padding: 40px 28px; border-top: 1px solid var(--border); background: va
     <p class="pain-label">Sound familiar?</p>
     <h2 class="pain-heading">Every trade business faces the same problems</h2>
     <div class="pain-chips">
-      <div class="pain-chip">Six ways to reach you</div>
-      <div class="pain-chip">Finished jobs, no invoice sent</div>
-      <div class="pain-chip">Multi-day jobs that go dark</div>
-      <div class="pain-chip">No record of what was said on site</div>
-      <div class="pain-chip">Double bookings & gaps in the diary</div>
-      <div class="pain-chip">Arriving on site unprepared</div>
+      <div class="pain-chip">
+        <span class="pain-chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></span>
+        Six ways to reach you
+      </div>
+      <div class="pain-chip">
+        <span class="pain-chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M9 13h6M9 17h4"/></svg></span>
+        Finished jobs, no invoice sent
+      </div>
+      <div class="pain-chip">
+        <span class="pain-chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+        Multi-day jobs that go dark
+      </div>
+      <div class="pain-chip">
+        <span class="pain-chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+        No record of what was said on site
+      </div>
+      <div class="pain-chip">
+        <span class="pain-chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+        Double bookings & gaps in the diary
+      </div>
+      <div class="pain-chip">
+        <span class="pain-chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1zM16 8l4 2v6h-4"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
+        Arriving on site unprepared
+      </div>
     </div>
   </div>
 </section>
@@ -634,40 +661,40 @@ footer { padding: 40px 28px; border-top: 1px solid var(--border); background: va
         <p class="section-label">How it works</p>
         <h2 class="section-h">From first contact to paid — in one place</h2>
         <p class="section-sub">Every job has a status. You always know exactly where each one stands.</p>
-        <div class="lifecycle-steps">
+        <div class="lc-timeline">
           <div class="lc-step">
             <div class="lc-num">1</div>
             <div class="lc-body">
               <h3>Enquiry received</h3>
-              <p>Customer submits via your single Láimhe link — with photos if they have them. One inbox, no matter how they found you.</p>
+              <p>One link, one inbox — no matter how the customer found you.</p>
             </div>
           </div>
           <div class="lc-step">
             <div class="lc-num">2</div>
             <div class="lc-body">
-              <h3>Quote sent & accepted</h3>
-              <p>Send a quote directly from Láimhe. Customer accepts online. Job moves forward automatically.</p>
+              <h3>Quote sent</h3>
+              <p>Send from Láimhe. Customer accepts online. Job moves forward.</p>
             </div>
           </div>
           <div class="lc-step">
             <div class="lc-num">3</div>
             <div class="lc-body">
-              <h3>Scheduled & in progress</h3>
-              <p>Book visits, assign workers, track each visit. Multi-day jobs stay open and accumulate notes as the work progresses.</p>
+              <h3>Scheduled & on site</h3>
+              <p>Visits booked, workers assigned, notes logged as work progresses.</p>
             </div>
           </div>
           <div class="lc-step highlight">
             <div class="lc-num">4</div>
             <div class="lc-body">
-              <h3>Invoice queue — your money</h3>
-              <p>Job completes → automatically lands in your invoice queue. One tap to send. No completed jobs that never got billed.</p>
+              <h3>Invoice queue</h3>
+              <p>Job done → auto-queued for invoicing. One tap to send.</p>
             </div>
           </div>
           <div class="lc-step">
             <div class="lc-num">5</div>
             <div class="lc-body">
-              <h3>Paid. Job closed.</h3>
-              <p>Payment tracked. Job archived. Full history kept. Zero chasing.</p>
+              <h3>Paid & closed</h3>
+              <p>Payment tracked. Job archived. Zero chasing.</p>
             </div>
           </div>
         </div>
@@ -697,8 +724,8 @@ footer { padding: 40px 28px; border-top: 1px solid var(--border); background: va
     <div class="feat-split">
       <div class="feat-photo">
         <img
-          src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=800&q=80&auto=format&fit=crop"
-          alt="Electrician checking phone on site"
+          src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&q=80&auto=format&fit=crop"
+          alt="Electrician working on site checking phone"
           loading="lazy"
         >
         <div class="feat-badge">One inbox</div>
@@ -720,8 +747,8 @@ footer { padding: 40px 28px; border-top: 1px solid var(--border); background: va
     <div class="feat-split flip">
       <div class="feat-photo">
         <img
-          src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80&auto=format&fit=crop"
-          alt="Electricians working together on a job site"
+          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop"
+          alt="Electricians running cable on a multi-day rewire job"
           loading="lazy"
         >
         <div class="feat-badge">Multi-day jobs</div>
@@ -743,8 +770,8 @@ footer { padding: 40px 28px; border-top: 1px solid var(--border); background: va
     <div class="feat-split">
       <div class="feat-photo">
         <img
-          src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&q=80&auto=format&fit=crop"
-          alt="Tradesperson reviewing work on a tablet"
+          src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80&auto=format&fit=crop"
+          alt="Tradesperson reviewing invoice on phone"
           loading="lazy"
         >
         <div class="feat-badge amber">Invoice queue</div>

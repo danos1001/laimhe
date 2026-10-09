@@ -190,7 +190,14 @@ nav {
   font-size: .875rem; font-weight: 500;
   color: var(--fg-mid);
 }
-.pain-chip .chip-icon { font-size: 1rem; }
+.pain-chip::before {
+  content: '';
+  display: block; flex-shrink: 0;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  opacity: .7;
+}
 
 /* ── LIFECYCLE ── */
 .lifecycle { padding: 96px 0; }
@@ -609,12 +616,12 @@ footer { padding: 40px 28px; border-top: 1px solid var(--border); background: va
     <p class="pain-label">Sound familiar?</p>
     <h2 class="pain-heading">Every trade business faces the same problems</h2>
     <div class="pain-chips">
-      <div class="pain-chip"><span class="chip-icon">📱</span> Six ways to reach you</div>
-      <div class="pain-chip"><span class="chip-icon">💸</span> Finished jobs, no invoice sent</div>
-      <div class="pain-chip"><span class="chip-icon">🔄</span> Multi-day jobs that go dark</div>
-      <div class="pain-chip"><span class="chip-icon">📋</span> No record of what was said on site</div>
-      <div class="pain-chip"><span class="chip-icon">📅</span> Double bookings & gaps in the diary</div>
-      <div class="pain-chip"><span class="chip-icon">🚗</span> Arriving on site unprepared</div>
+      <div class="pain-chip">Six ways to reach you</div>
+      <div class="pain-chip">Finished jobs, no invoice sent</div>
+      <div class="pain-chip">Multi-day jobs that go dark</div>
+      <div class="pain-chip">No record of what was said on site</div>
+      <div class="pain-chip">Double bookings & gaps in the diary</div>
+      <div class="pain-chip">Arriving on site unprepared</div>
     </div>
   </div>
 </section>
@@ -690,8 +697,8 @@ footer { padding: 40px 28px; border-top: 1px solid var(--border); background: va
     <div class="feat-split">
       <div class="feat-photo">
         <img
-          src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80&auto=format&fit=crop"
-          alt="Tradesperson checking their phone on site"
+          src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=800&q=80&auto=format&fit=crop"
+          alt="Electrician checking phone on site"
           loading="lazy"
         >
         <div class="feat-badge">One inbox</div>
@@ -713,8 +720,8 @@ footer { padding: 40px 28px; border-top: 1px solid var(--border); background: va
     <div class="feat-split flip">
       <div class="feat-photo">
         <img
-          src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80&auto=format&fit=crop"
-          alt="Team of tradespeople on a job site"
+          src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80&auto=format&fit=crop"
+          alt="Electricians working together on a job site"
           loading="lazy"
         >
         <div class="feat-badge">Multi-day jobs</div>
@@ -736,8 +743,8 @@ footer { padding: 40px 28px; border-top: 1px solid var(--border); background: va
     <div class="feat-split">
       <div class="feat-photo">
         <img
-          src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80&auto=format&fit=crop"
-          alt="Tradesperson reviewing invoices and paperwork"
+          src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&q=80&auto=format&fit=crop"
+          alt="Tradesperson reviewing work on a tablet"
           loading="lazy"
         >
         <div class="feat-badge amber">Invoice queue</div>
